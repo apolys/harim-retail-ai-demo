@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="retail-ai.css">
 <title>하림 AI Retail Execution Platform - 시연용 페이지</title>
 <style>
   * { box-sizing: border-box; }
@@ -155,63 +154,16 @@
     renderViewer(page);
   }
 
-  async function renderViewer(page) {
+  async function renderViewer(page){
 
     frameTitle.textContent = page.label;
 
-    const response = await fetch("pages/" + page.file);
+    const html = await fetch("pages/" + page.file)
+        .then(r=>r.text());
 
-    if (!response.ok) {
-        console.error("페이지 로드 실패:", page.file);
-        return;
-    }
+    container.innerHTML = html;
 
-    const html = await response.text();
-
-    // HTML 파싱
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(html, "text/html");
-
-    // body 내용만 삽입
-    container.innerHTML = doc.body.innerHTML;
-
-    // CSS 자동 로드
-    // doc.querySelectorAll('link[rel="stylesheet"]').forEach(link => {
-
-    //     const href = new URL(link.getAttribute("href"), response.url).href;
-
-    //     if (!document.querySelector(`link[data-page-css="${href}"]`)) {
-
-    //         const css = document.createElement("link");
-    //         css.rel = "stylesheet";
-    //         css.href = href;
-    //         css.dataset.pageCss = href;
-
-    //         document.head.appendChild(css);
-
-    //     }
-
-    // });
-
-    // Script 실행
-    doc.querySelectorAll("script").forEach(oldScript => {
-
-        const s = document.createElement("script");
-
-        if (oldScript.src) {
-            s.src = new URL(oldScript.src, response.url).href;
-        } else {
-            s.textContent = oldScript.textContent;
-        }
-
-        document.body.appendChild(s);
-
-    });
-
-    }
-
-    
-  
+  }
 
   function showError(file) {
     viewer.style.display = "none";
@@ -237,42 +189,6 @@
       renderViewer(page);
     }
   });
-
-  function navigate(id, subtab){
-
-    const target =
-        pages.find(p=>p.id===id);
-
-    if(!target) return;
-
-    const btn =
-        [...nav.children]
-        .find(b=>b.textContent===target.label);
-
-    loadPage(target, btn);
-
-  }
-
-  window.navigate = function(id, subtab){
-
-    const page = pages.find(p => p.id === id);
-
-    if(!page){
-        console.warn("페이지 없음", id);
-        return;
-    }
-
-    const btn = [...nav.children].find(
-        b => b.textContent === page.label
-    );
-
-    if(btn){
-        loadPage(page, btn);
-    }
-
-  }
-
-  console.log("navigate 등록 완료", window.navigate);
 
 
 </script>
