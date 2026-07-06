@@ -180,7 +180,43 @@
 
     });
 
+    // ⭐ 추가
+    container.querySelectorAll("[data-page]").forEach(el => {
+
+    el.style.cursor = "pointer";
+
+    el.addEventListener("click", () => {
+
+        window.navigate(
+            el.dataset.page,
+            el.dataset.subtab
+        );
+
+    });
+
+    });
+
   }
+
+  window.navigate = function(id, subtab){
+
+    const page = pages.find(p => p.id === id);
+
+    if (!page) {
+        console.warn("페이지 없음:", id);
+        return;
+    }
+
+    const btn = [...nav.children].find(
+        b => b.textContent === page.label
+    );
+
+    if (btn) {
+        loadPage(page, btn);
+    }
+
+  };
+  
 
   function showError(file) {
     viewer.style.display = "none";
@@ -206,6 +242,22 @@
       renderViewer(page);
     }
   });
+
+  window.navigate = function(id, subtab){
+
+    const page = pages.find(p => p.id === id);
+
+    if (!page) return;
+
+    const btn = [...nav.children].find(
+        b => b.textContent === page.label
+    );
+
+    if (btn) {
+        loadPage(page, btn);
+    }
+
+  };
 
 
 </script>

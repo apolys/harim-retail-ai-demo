@@ -105,13 +105,11 @@
 
 <script>
   function navigate(id, subtab) {
-
-    if (window.parent && window.parent.navigate) {
-        window.parent.navigate(id, subtab);
-    } else if (window.navigate) {
-        window.navigate(id, subtab);
-    }
-
+  
+      if (window.navigate) {
+          window.navigate(id, subtab);
+      }
+  
   }
-</script>
+  </script>
 
