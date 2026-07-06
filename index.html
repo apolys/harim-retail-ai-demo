@@ -154,32 +154,61 @@
     renderViewer(page);
   }
 
-  async function renderViewer(page){
+  async function renderViewer(page) {
 
     frameTitle.textContent = page.label;
 
-    const html = await fetch("pages/" + page.file)
-        .then(r=>r.text());
+    const response = await fetch("pages/" + page.file);
 
-    container.innerHTML = html;
+    if (!response.ok) {
+        console.error("페이지 로드 실패:", page.file);
+        return;
+    }
 
-    // 페이지 내부 script 실행
-    container.querySelectorAll("script").forEach(oldScript => {
+    const html = await response.text();
 
-        const script = document.createElement("script");
+    // HTML 파싱
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(html, "text/html");
 
-        if (oldScript.src) {
-            script.src = oldScript.src;
-        } else {
-            script.textContent = oldScript.textContent;
+    // body 내용만 삽입
+    container.innerHTML = doc.body.innerHTML;
+
+    // CSS 자동 로드
+    doc.querySelectorAll('link[rel="stylesheet"]').forEach(link => {
+
+        const href = new URL(link.getAttribute("href"), response.url).href;
+
+        if (!document.querySelector(`link[data-page-css="${href}"]`)) {
+
+            const css = document.createElement("link");
+            css.rel = "stylesheet";
+            css.href = href;
+            css.dataset.pageCss = href;
+
+            document.head.appendChild(css);
+
         }
-
-        document.body.appendChild(script);
-        oldScript.remove();
 
     });
 
-  }
+    // Script 실행
+    doc.querySelectorAll("script").forEach(oldScript => {
+
+        const s = document.createElement("script");
+
+        if (oldScript.src) {
+            s.src = new URL(oldScript.src, response.url).href;
+        } else {
+            s.textContent = oldScript.textContent;
+        }
+
+        document.body.appendChild(s);
+
+    });
+
+    }
+  
 
   function showError(file) {
     viewer.style.display = "none";
@@ -218,6 +247,25 @@
         .find(b=>b.textContent===target.label);
 
     loadPage(target, btn);
+
+  }
+
+  window.navigate = function(id, subtab){
+
+    const page = pages.find(p => p.id === id);
+
+    if(!page){
+        console.warn("페이지 없음", id);
+        return;
+    }
+
+    const btn = [...nav.children].find(
+        b => b.textContent === page.label
+    );
+
+    if(btn){
+        loadPage(page, btn);
+    }
 
   }
 
