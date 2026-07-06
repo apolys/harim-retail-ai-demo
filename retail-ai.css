@@ -1,56 +1,20 @@
-/* ==========================================
-   HARIM RETAIL EXECUTION DESIGN SYSTEM
-========================================== */
-
+/* Retail AI Design System v1.0 */
 :root{
-
-  /* Brand */
-
-  --primary:#E3A947;
-  --primary-dark:#C78C2F;
-
-  /* Semantic */
-
-  --success:#2E7D32;
-  --warning:#F9A825;
-  --danger:#D32F2F;
-
-  /* Gray */
-
-  --bg:#F5F6F8;
-  --card:#FFFFFF;
-
-  --line:#E5E7EB;
-
-  --text:#202124;
-  --text-sub:#667085;
-
-  /* Radius */
-
-  --radius-sm:8px;
-  --radius-md:12px;
-  --radius-lg:18px;
-
-  /* Shadow */
-
-  --shadow:
-
-      0 8px 30px rgba(0,0,0,.06);
-
-  /* Spacing */
-
-  --s8:8px;
-  --s12:12px;
-  --s16:16px;
-  --s24:24px;
-  --s32:32px;
-  --s40:40px;
-
+--primary:#7F77DD;--primary-dark:#685FD0;
+--surface-1:#FFF;--surface-2:#F7F8FC;--surface-3:#EEF1F6;
+--border:#E3E7EF;
+--fill-primary:var(--primary);--on-primary:#FFF;
+--text-primary:#1F2937;--text-secondary:#667085;--text-muted:#98A2B3;
+--text-success:#2E7D32;--text-warning:#D97706;--text-danger:#C62828;--text-accent:#5B4FCF;
+--bg-success:#E8F5E9;--bg-warning:#FFF7E6;--bg-danger:#FDECEC;--bg-accent:#F1EFFF;
+--border-success:#4CAF50;--border-warning:#F59E0B;--border-danger:#E53935;
+--radius:16px;--radius-lg:22px;
+--shadow-sm:0 2px 8px rgba(15,23,42,.06);
+--shadow-md:0 10px 30px rgba(15,23,42,.10);
 }
-
 *{box-sizing:border-box}
 html,body{margin:0;padding:0;font-family:"Pretendard Variable","Pretendard",-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Noto Sans KR","Segoe UI",sans-serif;color:var(--text-primary);background:linear-gradient(180deg,#F5F7FB,#ECEFF5)}
-body{padding:24px;min-height:100vh;}
+body{padding:24px}
 h1,h2,h3,h4,h5,p{margin:0}
 button{appearance:none;border:none;cursor:pointer;background:var(--fill-primary);color:var(--on-primary);border-radius:var(--radius);padding:12px 18px;font-size:14px;font-weight:600;transition:.2s;box-shadow:var(--shadow-sm)}
 button:hover{background:var(--primary-dark);transform:translateY(-1px)}
@@ -88,42 +52,3 @@ hr{border:none;border-top:1px solid var(--border)}
 
 ::-webkit-scrollbar{width:8px}
 ::-webkit-scrollbar-thumb{background:#CDD5DF;border-radius:999px}
-
-
-/* =========================
-
-Layout Utilities
-
-========================= */
-
-.page{
-
-  padding:32px;
-  
-  }
-  
-  .container{
-  
-  max-width:1440px;
-  
-  margin:auto;
-  
-  }
-  
-  .section{
-  
-  margin-top:32px;
-  
-  }
-  
-  .mt-24{
-  
-  margin-top:24px;
-  
-  }
-  
-  .mb-24{
-  
-  margin-bottom:24px;
-  
-  }
