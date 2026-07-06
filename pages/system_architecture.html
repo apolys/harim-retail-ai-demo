@@ -26,7 +26,7 @@
     </defs>
 
     <!-- M4 -->
-    <g class="node" onclick="navigate('m4')">
+    <g class="node" data-page="m4">
       <rect x="40" y="30" width="180" height="56" rx="10" fill="var(--surface-2)" stroke="var(--border)"/>
       <text x="130" y="52" text-anchor="middle" font-size="14" font-weight="700" fill="var(--text-primary)">M4. 이미지 캡처</text>
       <text x="130" y="70" text-anchor="middle" font-size="12" fill="var(--text-secondary)">판촉사원 모바일 촬영</text>
@@ -34,7 +34,7 @@
     <line x1="130" y1="86" x2="130" y2="120" stroke="#9AA0AC" stroke-width="1.5" marker-end="url(#arrow)"/>
 
     <!-- M1 -->
-    <g class="node" onclick="navigate('m1')">
+    <g class="node" data-page="m1">
       <rect x="40" y="120" width="180" height="56" rx="10" fill="var(--bg-accent)" stroke="var(--primary)" stroke-width="1.5"/>
       <text x="130" y="142" text-anchor="middle" font-size="14" font-weight="700" fill="var(--text-accent)">M1. AI 스코어링 엔진</text>
       <text x="130" y="160" text-anchor="middle" font-size="12" fill="var(--text-accent)">SKU·가격·POP 인식</text>
@@ -42,21 +42,21 @@
     <line x1="220" y1="148" x2="270" y2="148" stroke="#9AA0AC" stroke-width="1.5" marker-end="url(#arrow)"/>
 
     <!-- M2 -->
-    <g class="node" onclick="navigate('m2')">
+    <g class="node" data-page="m2">
       <rect x="270" y="120" width="180" height="56" rx="10" fill="var(--bg-danger)" stroke="var(--border-danger)" stroke-width="1.5"/>
       <text x="360" y="142" text-anchor="middle" font-size="14" font-weight="700" fill="var(--text-danger)">M2. OOS 관리</text>
       <text x="360" y="160" text-anchor="middle" font-size="12" fill="var(--text-danger)">품절 탐지·알림·태스크</text>
     </g>
 
     <!-- M5 -->
-    <g class="node" onclick="navigate('m5')">
+    <g class="node" data-page="m5">
       <rect x="480" y="30" width="160" height="56" rx="10" fill="var(--bg-success)" stroke="var(--border-success)" stroke-width="1.5"/>
       <text x="560" y="52" text-anchor="middle" font-size="14" font-weight="700" fill="var(--text-success)">M5. 경쟁사·시장</text>
       <text x="560" y="70" text-anchor="middle" font-size="12" fill="var(--text-success)">Nielsen·Circana 연동</text>
     </g>
 
     <!-- M6 -->
-    <g class="node" onclick="navigate('m6')">
+    <g class="node" data-page="m6">
       <rect x="480" y="120" width="160" height="56" rx="10" fill="var(--bg-success)" stroke="var(--border-success)" stroke-width="1.5"/>
       <text x="560" y="142" text-anchor="middle" font-size="14" font-weight="700" fill="var(--text-success)">M6. 고객접점 연계</text>
       <text x="560" y="160" text-anchor="middle" font-size="12" fill="var(--text-success)">POS·멤버십·CRM</text>
@@ -80,14 +80,14 @@
     <line x1="560" y1="302" x2="520" y2="345" stroke="#9AA0AC" stroke-width="1.5" marker-end="url(#arrow)"/>
 
     <!-- M7 -->
-    <g class="node" onclick="navigate('m7')">
+    <g class="node" data-page="m7">
       <rect x="200" y="345" width="160" height="56" rx="10" fill="var(--bg-warning)" stroke="var(--border-warning)" stroke-width="1.5"/>
       <text x="280" y="367" text-anchor="middle" font-size="14" font-weight="700" fill="var(--text-warning)">M7. ROI 계산 엔진</text>
       <text x="280" y="385" text-anchor="middle" font-size="12" fill="var(--text-warning)">기준선·증분이익 산출</text>
     </g>
 
     <!-- M8 -->
-    <g class="node" onclick="navigate('m8')">
+    <g class="node" data-page="m8">
       <rect x="380" y="345" width="160" height="56" rx="10" fill="var(--bg-warning)" stroke="var(--border-warning)" stroke-width="1.5"/>
       <text x="460" y="367" text-anchor="middle" font-size="14" font-weight="700" fill="var(--text-warning)">M8. 인력운영(SPLH)</text>
       <text x="460" y="385" text-anchor="middle" font-size="12" fill="var(--text-warning)">스케줄링 제안</text>
@@ -122,7 +122,13 @@
 
 <script>
   function navigate(id, subtab) {
-    window.parent.postMessage({ navigate: id, subtab: subtab || null }, '*');
+
+    if (window.parent && window.parent.navigate) {
+        window.parent.navigate(id, subtab);
+    } else if (window.navigate) {
+        window.navigate(id, subtab);
+    }
+
   }
 </script>
 </body>
