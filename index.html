@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="retail-ai.css">
 <title>하림 AI Retail Execution Platform - 시연용 페이지</title>
 <style>
   * { box-sizing: border-box; }
@@ -154,14 +155,30 @@
     renderViewer(page);
   }
 
-  async function renderViewer(page){
+  async function renderViewer(page) {
 
     frameTitle.textContent = page.label;
 
     const html = await fetch("pages/" + page.file)
-        .then(r=>r.text());
+        .then(r => r.text());
 
     container.innerHTML = html;
+
+    // Fragment 안의 script 실행
+    container.querySelectorAll("script").forEach(oldScript => {
+
+        const script = document.createElement("script");
+
+        if (oldScript.src) {
+            script.src = oldScript.src;
+        } else {
+            script.textContent = oldScript.textContent;
+        }
+
+        document.body.appendChild(script);
+        oldScript.remove();
+
+    });
 
   }
 
