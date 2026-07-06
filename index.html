@@ -163,6 +163,22 @@
 
     container.innerHTML = html;
 
+    // 페이지 내부 script 실행
+    container.querySelectorAll("script").forEach(oldScript => {
+
+        const script = document.createElement("script");
+
+        if (oldScript.src) {
+            script.src = oldScript.src;
+        } else {
+            script.textContent = oldScript.textContent;
+        }
+
+        document.body.appendChild(script);
+        oldScript.remove();
+
+    });
+
   }
 
   function showError(file) {
@@ -189,6 +205,21 @@
       renderViewer(page);
     }
   });
+
+  function navigate(id, subtab){
+
+    const target =
+        pages.find(p=>p.id===id);
+
+    if(!target) return;
+
+    const btn =
+        [...nav.children]
+        .find(b=>b.textContent===target.label);
+
+    loadPage(target, btn);
+
+  }
 
 
 </script>
