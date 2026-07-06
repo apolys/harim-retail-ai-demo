@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="retail-ai.css">
 <title>하림 AI Retail Execution Platform - 시연용 페이지</title>
 <style>
   * { box-sizing: border-box; }
@@ -175,22 +176,22 @@
     container.innerHTML = doc.body.innerHTML;
 
     // CSS 자동 로드
-    doc.querySelectorAll('link[rel="stylesheet"]').forEach(link => {
+    // doc.querySelectorAll('link[rel="stylesheet"]').forEach(link => {
 
-        const href = new URL(link.getAttribute("href"), response.url).href;
+    //     const href = new URL(link.getAttribute("href"), response.url).href;
 
-        if (!document.querySelector(`link[data-page-css="${href}"]`)) {
+    //     if (!document.querySelector(`link[data-page-css="${href}"]`)) {
 
-            const css = document.createElement("link");
-            css.rel = "stylesheet";
-            css.href = href;
-            css.dataset.pageCss = href;
+    //         const css = document.createElement("link");
+    //         css.rel = "stylesheet";
+    //         css.href = href;
+    //         css.dataset.pageCss = href;
 
-            document.head.appendChild(css);
+    //         document.head.appendChild(css);
 
-        }
+    //     }
 
-    });
+    // });
 
     // Script 실행
     doc.querySelectorAll("script").forEach(oldScript => {
