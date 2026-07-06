@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>M3. 통합 대시보드</title>
+<link rel="stylesheet" href="retail-ai.css">
+<style>
+  .wrap{max-width:960px;margin:0 auto}
+  .subtabs{display:flex;gap:6px;margin-bottom:20px;border-bottom:1px solid var(--border);padding-bottom:0}
+  .subtabs button{
+    background:none;box-shadow:none;color:var(--text-secondary);font-weight:600;
+    padding:10px 16px;border-radius:0;border-bottom:2px solid transparent;
+  }
+  .subtabs button:hover{background:none;transform:none;color:var(--text-primary)}
+  .subtabs button.active{color:var(--text-accent);border-bottom-color:var(--primary)}
+  .panel{display:none}
+  .panel.active{display:block}
+
+  .kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:24px}
+  .kpi-card{background:var(--surface-2);border-radius:var(--radius);padding:16px}
+  .kpi-card .label{font-size:13px;color:var(--text-secondary)}
+  .kpi-card .value{font-size:24px;font-weight:700;margin-top:6px}
+
+  .section-title{font-size:14px;font-weight:700;margin-bottom:10px}
+
+  .heatmap{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin-bottom:24px}
+  .heat-cell{border-radius:10px;padding:12px 8px;font-size:12px;text-align:center}
+  .heat-cell .score{display:block;font-weight:700;font-size:16px;margin-top:2px}
+  .heat-good{background:var(--bg-success);color:var(--text-success)}
+  .heat-warn{background:var(--bg-warning);color:var(--text-warning)}
+  .heat-bad{background:var(--bg-danger);color:var(--text-danger)}
+
+  .alert-list{border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
+  .alert-row{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;font-size:13px;border-bottom:1px solid var(--border)}
+  .alert-row:last-child{border-bottom:none}
+
+  .store-list{display:flex;flex-direction:column;gap:8px}
+  .store-row{display:flex;align-items:center;gap:14px;background:var(--surface-2);border-radius:var(--radius);padding:12px 16px}
+  .store-row .score{font-size:22px;font-weight:700;min-width:36px}
+  .store-row .info{flex:1}
+  .store-row .name{font-size:13px;font-weight:700}
+  .store-row .meta{font-size:12px;color:var(--text-secondary)}
+
+  .field-card{max-width:340px;margin:0 auto;background:var(--surface-2);border-radius:var(--radius-lg);padding:20px}
+  .field-date{font-size:13px;color:var(--text-secondary)}
+  .field-title{font-size:16px;font-weight:700;margin:2px 0 16px}
+  .task{display:flex;align-items:center;gap:10px;padding:12px;background:var(--surface-1);border-radius:var(--radius);margin-bottom:8px;font-size:13px}
+  .task.done{color:var(--text-muted);text-decoration:line-through}
+  .field-footer{display:flex;justify-content:space-between;font-size:12px;color:var(--text-secondary);margin:14px 0}
+  .field-btn{width:100%}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h2 class="screen-caption">M3. 통합 대시보드 — 경영진·SV·현장 3개 계층의 화면을 하나의 모듈로 통합. 탭을 눌러 각 계층별 화면을 확인할 수 있다.</h2>
+
+  <div class="subtabs">
+    <button id="tab-exec" class="active" onclick="showPanel('exec')">경영진</button>
+    <button id="tab-sv" onclick="showPanel('sv')">SV</button>
+    <button id="tab-field" onclick="showPanel('field')">현장</button>
+  </div>
+
+  <!-- 경영진 패널 -->
+  <div id="panel-exec" class="panel active">
+    <div class="kpi-grid">
+      <div class="kpi-card"><div class="label">매출(전주비)</div><div class="value">+6.2%</div></div>
+      <div class="kpi-card"><div class="label">Perfect Store Score</div><div class="value">82점</div></div>
+      <div class="kpi-card"><div class="label">OOS율</div><div class="value" style="color:var(--text-danger)">4.1%</div></div>
+      <div class="kpi-card"><div class="label">SPLH</div><div class="value">₩138k</div></div>
+    </div>
+
+    <div class="section-title">지역별 실행 스코어</div>
+    <div class="heatmap">
+      <div class="heat-cell heat-good">수도권<span class="score">91</span></div>
+      <div class="heat-cell heat-good">경기<span class="score">88</span></div>
+      <div class="heat-cell heat-warn">충청<span class="score">74</span></div>
+      <div class="heat-cell heat-warn">호남<span class="score">71</span></div>
+      <div class="heat-cell heat-bad">영남<span class="score">63</span></div>
+      <div class="heat-cell heat-good">강원<span class="score">85</span></div>
+    </div>
+
+    <div class="section-title">예외 알림</div>
+    <div class="alert-list">
+      <div class="alert-row"><span>영남 A마트 3주 연속 진열준수율 하락</span><span style="color:var(--text-danger)">스코어 58점</span></div>
+      <div class="alert-row"><span>호남 B마트 OOS 6시간 이상 미조치</span><span style="color:var(--text-danger)">긴급</span></div>
+      <div class="alert-row"><span>이번 분기 프로모션 3건 마이너스 ROI</span><span style="color:var(--text-warning)">검토 필요</span></div>
+    </div>
+  </div>
+
+  <!-- SV 패널 -->
+  <div id="panel-sv" class="panel">
+    <div class="section-title">담당 점포 (12곳) · 스코어순</div>
+    <div class="store-list">
+      <div class="store-row"><span class="score" style="color:var(--text-danger)">58</span><div class="info"><div class="name">영남 A마트</div><div class="meta">전주 대비 -12 · OOS 2건</div></div><span style="color:var(--text-danger)">↓</span></div>
+      <div class="store-row"><span class="score" style="color:var(--text-warning)">71</span><div class="info"><div class="name">호남 B마트</div><div class="meta">전주 대비 -4 · POP 미부착</div></div><span style="color:var(--text-warning)">↓</span></div>
+      <div class="store-row"><span class="score" style="color:var(--text-warning)">76</span><div class="info"><div class="name">영남 C마트</div><div class="meta">전주 대비 +2</div></div><span style="color:var(--text-success)">↑</span></div>
+      <div class="store-row" style="opacity:.75"><span class="score" style="color:var(--text-success)">89</span><div class="info"><div class="name">수도권 D마트</div><div class="meta">전주 대비 +5 · 양호</div></div><span style="color:var(--text-success)">↑</span></div>
+    </div>
+  </div>
+
+  <!-- 현장 패널 -->
+  <div id="panel-field" class="panel">
+    <div class="field-card">
+      <div class="field-date">7월 3일 (금) · A마트</div>
+      <div class="field-title">오늘의 체크리스트</div>
+      <div class="task done">✓ 냉동코너 촬영</div>
+      <div class="task done">✓ 냉장코너 촬영</div>
+      <div class="task">📷 상온코너 촬영</div>
+      <div class="task" style="color:var(--text-secondary)">📷 엔드매대 촬영</div>
+      <div class="field-footer"><span>진행률 2/4</span><span>내 스코어 84점 · 팀 내 2위</span></div>
+      <button class="field-btn">촬영 시작</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  function showPanel(name){
+    document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+    document.querySelectorAll('.subtabs button').forEach(b=>b.classList.remove('active'));
+    document.getElementById('panel-'+name).classList.add('active');
+    document.getElementById('tab-'+name).classList.add('active');
+  }
+</script>
+</body>
+</html>

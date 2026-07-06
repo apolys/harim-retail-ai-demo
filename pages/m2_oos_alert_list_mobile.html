@@ -1,0 +1,35 @@
+<link rel="stylesheet" href="retail-ai.css">
+<h2 class="screen-caption">M2 OOS 관리 — 품절 알림 목록 화면. SKU별 탐지 시각과 처리 상태를 배지로 표시하고 탭하면 상세 조치 화면으로 이동한다.</h2>
+<div style="max-width:340px; margin:0 auto;">
+  <div style="font-size:14px; font-weight:500; margin-bottom:10px;">OOS 알림 (3건 미처리)</div>
+  <div style="display:flex; flex-direction:column; gap:8px;">
+    <div style="display:flex; justify-content:space-between; align-items:center; background:var(--surface-1); border-radius:var(--radius); padding:12px 14px; border-left:3px solid var(--border-danger); border-radius:0 var(--radius) var(--radius) 0;">
+      <div>
+        <div style="font-size:13px; font-weight:500;">하림 순살치킨 500g</div>
+        <div style="font-size:12px; color:var(--text-muted);">탐지 6시간 전 · 냉동코너 3열</div>
+      </div>
+      <span style="background:var(--bg-danger); color:var(--text-danger); font-size:11px; padding:4px 10px; border-radius:var(--radius);">긴급</span>
+    </div>
+    <div style="display:flex; justify-content:space-between; align-items:center; background:var(--surface-1); border-radius:0 var(--radius) var(--radius) 0; padding:12px 14px; border-left:3px solid var(--border-warning);">
+      <div>
+        <div style="font-size:13px; font-weight:500;">하림 닭가슴살 오리지널</div>
+        <div style="font-size:12px; color:var(--text-muted);">탐지 40분 전 · 냉장코너 1열</div>
+      </div>
+      <span style="background:var(--bg-warning); color:var(--text-warning); font-size:11px; padding:4px 10px; border-radius:var(--radius);">확인중</span>
+    </div>
+    <div style="display:flex; justify-content:space-between; align-items:center; background:var(--surface-1); border-radius:0 var(--radius) var(--radius) 0; padding:12px 14px; border-left:3px solid var(--border-warning);">
+      <div>
+        <div style="font-size:13px; font-weight:500;">하림 계란 15구</div>
+        <div style="font-size:12px; color:var(--text-muted);">탐지 12분 전 · 상온코너 2열</div>
+      </div>
+      <span style="background:var(--bg-warning); color:var(--text-warning); font-size:11px; padding:4px 10px; border-radius:var(--radius);">신규</span>
+    </div>
+    <div style="display:flex; justify-content:space-between; align-items:center; background:var(--surface-1); border-radius:0 var(--radius) var(--radius) 0; padding:12px 14px; border-left:3px solid var(--border-success); opacity:0.6;">
+      <div>
+        <div style="font-size:13px; font-weight:500;">하림 너겟 300g</div>
+        <div style="font-size:12px; color:var(--text-muted);">완료 · 리필 및 사진 인증됨</div>
+      </div>
+      <span style="background:var(--bg-success); color:var(--text-success); font-size:11px; padding:4px 10px; border-radius:var(--radius);">완료</span>
+    </div>
+  </div>
+</div>
