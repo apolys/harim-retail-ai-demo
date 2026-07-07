@@ -52,6 +52,40 @@
   .wf-upload-box:hover{border-color:var(--primary);color:var(--text-accent)}
   .wf-upload-box.filled{border-style:solid;border-color:var(--text-success);color:var(--text-success);background:var(--bg-success)}
 
+  .wf-camera-box{
+    position:relative;height:220px;border-radius:var(--radius);overflow:hidden;background:#1a1a18;margin-bottom:14px;
+  }
+  .wf-camera-box video{width:100%;height:100%;object-fit:cover;display:block}
+  .wf-guide-overlay{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none}
+  .wf-guide-hint{
+    position:absolute;top:10px;left:10px;right:10px;background:rgba(0,0,0,0.55);color:#FAEEDA;
+    font-size:11.5px;padding:7px 10px;border-radius:8px;text-align:center;
+  }
+  .wf-shutter-wrap{display:flex;justify-content:center;align-items:center;padding:6px 0 16px}
+  .wf-shutter{
+    width:52px;height:52px;border-radius:50%;border:3px solid var(--primary);background:none;cursor:pointer;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .wf-shutter-inner{width:40px;height:40px;border-radius:50%;background:var(--primary)}
+  .wf-retake-photo-btn{
+    width:100%;background:var(--surface-2);color:var(--text-secondary);border:none;border-radius:var(--radius);
+    padding:12px;font-size:13px;cursor:pointer;margin-bottom:16px;
+  }
+
+  .wf-capture-result{background:var(--surface-2);border-radius:var(--radius);padding:16px 18px;margin-bottom:20px}
+  .wf-capture-score{font-size:24px;font-weight:700;margin-bottom:8px}
+  .wf-capture-score.ok{color:var(--text-success)}
+  .wf-capture-score.warn{color:var(--text-warning)}
+  .wf-capture-score.bad{color:var(--text-danger)}
+  .wf-capture-check{font-size:12.5px;padding:4px 0;color:var(--text-secondary)}
+  .wf-capture-check.pass::before{content:"✓ ";color:var(--text-success)}
+  .wf-capture-check.fail::before{content:"✗ ";color:var(--text-danger)}
+
+  .wf-camera-error{
+    background:var(--bg-danger);color:var(--text-danger);border-radius:var(--radius);
+    padding:12px 14px;font-size:12.5px;margin-bottom:16px;white-space:pre-line;
+  }
+
   .wf-textarea{width:100%;border:1px solid var(--border);border-radius:var(--radius);padding:12px 14px;font-size:13px;font-family:inherit;resize:vertical;min-height:70px;margin-bottom:16px}
   .wf-select,.wf-input{width:100%;border:1px solid var(--border);border-radius:var(--radius);padding:12px 14px;font-size:13px;font-family:inherit;margin-bottom:16px;background:var(--surface-1)}
   .wf-field-label{font-size:12.5px;font-weight:600;color:var(--text-secondary);margin-bottom:8px;display:block}
@@ -154,14 +188,35 @@
     <!-- STEP 4: 매대 촬영 업로드 -->
     <div class="wf-panel" id="wf-step4">
       <div class="wf-title">매대 촬영 업로드</div>
-      <div class="wf-sub">촬영할 코너를 선택하고 사진을 업로드하세요.</div>
+      <div class="wf-sub">촬영할 코너를 선택하고 사진을 촬영하세요. 촬영 즉시 AI가 촬영 품질을 확인합니다.</div>
       <div class="wf-corner-grid">
         <div class="wf-corner-btn selected" data-corner="냉동" onclick="wfSelectCorner(this)">🧊<span>냉동코너</span></div>
         <div class="wf-corner-btn" data-corner="냉장" onclick="wfSelectCorner(this)">🥶<span>냉장코너</span></div>
         <div class="wf-corner-btn" data-corner="상온" onclick="wfSelectCorner(this)">📦<span>상온코너</span></div>
         <div class="wf-corner-btn" data-corner="엔드매대" onclick="wfSelectCorner(this)">🛒<span>엔드매대</span></div>
       </div>
-      <div class="wf-upload-box" id="wf-upload-box" onclick="wfSimulateUpload()">📷 탭하여 매대 사진 촬영/업로드</div>
+
+      <div class="wf-camera-box" id="wfCameraBox">
+        <video id="wfVideo" autoplay playsinline muted></video>
+        <canvas id="wfCanvas" style="display:none;"></canvas>
+        <svg class="wf-guide-overlay" viewBox="0 0 280 200" preserveAspectRatio="none">
+          <rect x="8" y="8" width="264" height="184" fill="none" stroke="#FAC775" stroke-width="2" stroke-dasharray="8 6" rx="8"/>
+          <line x1="8" y1="70" x2="272" y2="70" stroke="#FAC775" stroke-width="1" stroke-dasharray="4 4" opacity="0.6"/>
+          <line x1="8" y1="132" x2="272" y2="132" stroke="#FAC775" stroke-width="1" stroke-dasharray="4 4" opacity="0.6"/>
+        </svg>
+        <div class="wf-guide-hint" id="wfGuideHint">가이드라인에 매대를 맞춰주세요</div>
+      </div>
+
+      <div class="wf-shutter-wrap" id="wfShutterWrap">
+        <button class="wf-shutter" id="wfBtnShutter" aria-label="촬영" type="button">
+          <span class="wf-shutter-inner"></span>
+        </button>
+      </div>
+      <button class="wf-retake-photo-btn" id="wfBtnRetakePhoto" style="display:none;" type="button">다시 촬영</button>
+
+      <div class="wf-capture-result" id="wfCaptureResult" style="display:none;"></div>
+      <div class="wf-camera-error" id="wfCameraError" style="display:none;"></div>
+
       <textarea class="wf-textarea" placeholder="특이사항 메모 (선택)"></textarea>
       <div class="wf-actions">
         <button class="wf-btn-secondary" onclick="wfGoStep(3)">이전</button>
@@ -170,6 +225,7 @@
     </div>
 
     <!-- STEP 5: 방문결과 (허브) -->
+
     <div class="wf-panel" id="wf-step5">
       <div class="wf-link" onclick="wfGoStep(2)">← 오늘 방문목록</div>
       <div class="wf-result-header" id="wf-r-store">영남A마트</div>
@@ -371,6 +427,15 @@
       }
     }
     if(n === 2) wfRenderStoreList();
+    if(n === 4) {
+      // 다음 매장으로 넘어와 다시 STEP4에 진입할 때 이전 촬영 결과 UI를 초기화
+      document.getElementById('wfCaptureResult').style.display = 'none';
+      document.getElementById('wfBtnRetakePhoto').style.display = 'none';
+      document.getElementById('wfShutterWrap').style.display = 'flex';
+      document.getElementById('wfGuideHint').style.display = 'block';
+      document.getElementById('wf-submit-btn').disabled = true;
+      wfStartCamera();
+    }
     if(n === 5) wfRenderVisitResult();
     if(n === 8) document.getElementById('wf-checkout-time').textContent = wfNowStr();
   }
@@ -426,12 +491,122 @@
     el.classList.add('selected');
   }
 
-  function wfSimulateUpload(){
-    const box = document.getElementById('wf-upload-box');
-    box.classList.add('filled');
-    box.textContent = '✓ 사진 업로드 완료 (1장)';
-    document.getElementById('wf-submit-btn').disabled = false;
+  // ── 카메라 캡처 + 로컬 판정 (ai-capture-poc에서 검증된 로직 이식) ──
+  var wfVideo = document.getElementById('wfVideo');
+  var wfCanvas = document.getElementById('wfCanvas');
+  var wfShutterWrap = document.getElementById('wfShutterWrap');
+  var wfBtnShutter = document.getElementById('wfBtnShutter');
+  var wfBtnRetakePhoto = document.getElementById('wfBtnRetakePhoto');
+  var wfGuideHint = document.getElementById('wfGuideHint');
+  var wfCaptureResult = document.getElementById('wfCaptureResult');
+  var wfCameraError = document.getElementById('wfCameraError');
+  var WF_ANALYSIS_WIDTH = 320;
+  var wfCameraStarted = false;
+
+  async function wfStartCamera(){
+    if (wfCameraStarted) return;
+    try {
+      var stream = await navigator.mediaDevices.getUserMedia({
+        video: { facingMode: { ideal: 'environment' } },
+        audio: false
+      });
+      wfVideo.srcObject = stream;
+      wfCameraStarted = true;
+    } catch (err) {
+      wfCameraError.textContent = '카메라를 시작할 수 없습니다: ' + err.message +
+        '\n(HTTPS 환경인지, 카메라 권한을 허용했는지 확인해주세요)';
+      wfCameraError.style.display = 'block';
+    }
   }
+
+  function wfCaptureAndAnalyze(){
+    wfCameraError.style.display = 'none';
+    var vw = wfVideo.videoWidth;
+    var vh = wfVideo.videoHeight;
+    if (!vw || !vh) {
+      wfCameraError.textContent = '카메라 화면을 아직 불러오지 못했습니다. 잠시 후 다시 시도해주세요.';
+      wfCameraError.style.display = 'block';
+      return;
+    }
+    wfCanvas.width = vw;
+    wfCanvas.height = vh;
+    wfCanvas.getContext('2d').drawImage(wfVideo, 0, 0, vw, vh);
+
+    var data = wfAnalyzeLocal(wfCanvas);
+    wfRenderCaptureResult(data);
+
+    wfShutterWrap.style.display = 'none';
+    wfGuideHint.style.display = 'none';
+    wfBtnRetakePhoto.style.display = 'block';
+
+    document.getElementById('wf-submit-btn').disabled = !data.capture_ok;
+  }
+
+  function wfAnalyzeLocal(sourceCanvas){
+    var scale = WF_ANALYSIS_WIDTH / sourceCanvas.width;
+    var aw = WF_ANALYSIS_WIDTH;
+    var ah = Math.round(sourceCanvas.height * scale);
+    var analysisCanvas = document.createElement('canvas');
+    analysisCanvas.width = aw;
+    analysisCanvas.height = ah;
+    var actx = analysisCanvas.getContext('2d');
+    actx.drawImage(sourceCanvas, 0, 0, aw, ah);
+    var imageData = actx.getImageData(0, 0, aw, ah);
+
+    var data = imageData.data;
+    var total = 0;
+    for (var i = 0; i < data.length; i += 4) {
+      total += 0.299 * data[i] + 0.587 * data[i+1] + 0.114 * data[i+2];
+    }
+    var brightness = total / (data.length / 4);
+
+    var gray = new Float32Array(aw * ah);
+    for (var j = 0; j < aw * ah; j++) {
+      gray[j] = 0.299 * data[j*4] + 0.587 * data[j*4+1] + 0.114 * data[j*4+2];
+    }
+    var sum = 0, sumSq = 0, count = 0;
+    for (var y = 1; y < ah - 1; y++) {
+      for (var x = 1; x < aw - 1; x++) {
+        var idx = y * aw + x;
+        var lap = gray[idx-aw] + gray[idx+aw] + gray[idx-1] + gray[idx+1] - 4*gray[idx];
+        sum += lap; sumSq += lap*lap; count++;
+      }
+    }
+    var mean = sum / count;
+    var sharpness = sumSq / count - mean * mean;
+
+    var reason = [];
+    var score = 100;
+    if (brightness < 60) { score -= 30; reason.push('너무 어두움 (밝기 부족)'); }
+    else if (brightness > 210) { score -= 25; reason.push('너무 밝음 (역광/과다노출 의심)'); }
+    else { reason.push('밝기 양호'); }
+
+    if (sharpness < 300) { score -= 35; reason.push('흔들림 또는 초점 불량 의심'); }
+    else { reason.push('초점 양호'); }
+
+    score = Math.max(0, Math.min(100, score));
+    return { capture_ok: score >= 60, score: score, reason: reason };
+  }
+
+  function wfRenderCaptureResult(data){
+    var scoreClass = data.score >= 80 ? 'ok' : (data.score >= 60 ? 'warn' : 'bad');
+    var checksHtml = data.reason.map(function(r){
+      var isFail = /부족|의심|불량|과다노출/.test(r);
+      return '<div class="wf-capture-check ' + (isFail ? 'fail' : 'pass') + '">' + r + '</div>';
+    }).join('');
+    wfCaptureResult.innerHTML = '<div class="wf-capture-score ' + scoreClass + '">' + data.score + '점</div>' + checksHtml;
+    wfCaptureResult.style.display = 'block';
+  }
+
+  wfBtnShutter.addEventListener('click', wfCaptureAndAnalyze);
+
+  wfBtnRetakePhoto.addEventListener('click', function(){
+    wfCaptureResult.style.display = 'none';
+    wfBtnRetakePhoto.style.display = 'none';
+    wfShutterWrap.style.display = 'flex';
+    wfGuideHint.style.display = 'block';
+    document.getElementById('wf-submit-btn').disabled = true;
+  });
 
   function wfSubmitCapture(){
     const store = wfStores[wfVisitingIdx];
