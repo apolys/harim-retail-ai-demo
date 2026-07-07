@@ -43,6 +43,17 @@
     border-right: 1px solid #3a3a36;
     margin-right: 4px;
   }
+  .menu-toggle{
+    display:none;
+    margin-left:auto;
+    background:none;
+    border:none;
+    color:#FAEEDA;
+    font-size:22px;
+    line-height:1;
+    padding:6px 10px;
+    cursor:pointer;
+  }
   nav {
     display: flex;
     flex-wrap: wrap;
@@ -66,6 +77,36 @@
   nav button.active {
     color: #FAEEDA;
     border-bottom-color: #FAC775;
+  }
+
+  /* ============================================
+     모바일: 메뉴가 화면을 가리지 않도록 햄버거 버튼으로 접기/펼치기
+     ============================================ */
+  @media (max-width: 760px){
+    .header-inner{ position:relative; }
+    .menu-toggle{ display:block; }
+    nav{
+      display:none;
+      flex-direction:column;
+      width:100%;
+      max-height:65vh;
+      overflow-y:auto;
+      margin-top:8px;
+      border-top:1px solid #3a3a36;
+    }
+    nav.open{ display:flex; }
+    nav button{
+      width:100%;
+      text-align:left;
+      padding:14px 12px;
+      border-bottom:1px solid #2c2c2a;
+      border-left:3px solid transparent;
+    }
+    nav button.active{
+      border-bottom-color:#2c2c2a;
+      border-left-color:#FAC775;
+      background:rgba(250,199,117,0.08);
+    }
   }
 
   main {
@@ -111,6 +152,7 @@
 <header>
   <div class="header-inner">
     <div class="logo">하림 Retail Execution</div>
+    <button class="menu-toggle" id="menuToggle" aria-label="메뉴 열기/닫기" aria-expanded="false">☰</button>
     <nav id="nav"></nav>
   </div>
 </header>
@@ -142,10 +184,22 @@
   ];
 
   const nav = document.getElementById("nav");
-  //const viewer = document.getElementById("viewer");
+  const menuToggle = document.getElementById("menuToggle");
   const container = document.getElementById("page-container");
   const frameTitle = document.getElementById("frameTitle");
   const frameWrap = document.querySelector(".frame-wrap");
+
+  menuToggle.addEventListener("click", () => {
+    const isOpen = nav.classList.toggle("open");
+    menuToggle.setAttribute("aria-expanded", isOpen ? "true" : "false");
+    menuToggle.textContent = isOpen ? "✕" : "☰";
+  });
+
+  function closeMobileMenu() {
+    nav.classList.remove("open");
+    menuToggle.setAttribute("aria-expanded", "false");
+    menuToggle.textContent = "☰";
+  }
 
   function loadPage(page, btn) {
     document.querySelectorAll("nav button").forEach(b => b.classList.remove("active"));
@@ -153,6 +207,7 @@
     frameTitle.textContent = page.label;
     document.querySelector(".error-box")?.remove();
     renderViewer(page);
+    closeMobileMenu();
   }
 
   async function renderViewer(page) {
