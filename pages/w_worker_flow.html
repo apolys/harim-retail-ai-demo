@@ -2,12 +2,10 @@
 <style>
   .wf-wrap{max-width:520px;margin:0 auto;padding:8px 0 24px}
 
-  /* 스텝 인디케이터 */
   .wf-stepper{display:flex;align-items:center;margin-bottom:32px}
   .wf-step-dot{
     width:30px;height:30px;border-radius:50%;background:var(--surface-2);color:var(--text-muted);
-    display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0;
-    transition:.2s;
+    display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0;transition:.2s;
   }
   .wf-step-dot.active{background:var(--primary);color:#fff}
   .wf-step-dot.done{background:var(--text-success);color:#fff}
@@ -22,6 +20,7 @@
 
   .wf-title{font-size:18px;font-weight:700;margin-bottom:6px}
   .wf-sub{font-size:13px;color:var(--text-secondary);margin-bottom:24px}
+  .wf-link{font-size:12.5px;color:var(--text-accent);cursor:pointer;text-decoration:underline;margin-bottom:16px;display:inline-block}
 
   .wf-info-row{display:flex;justify-content:space-between;padding:14px 0;border-bottom:1px solid var(--border);font-size:13.5px}
   .wf-info-row:last-of-type{border-bottom:none}
@@ -33,57 +32,71 @@
   }
   .wf-store-row:hover{border-color:var(--primary)}
   .wf-store-row.selected{border-color:var(--primary);background:var(--bg-accent)}
+  .wf-store-row.disabled{opacity:.55;cursor:default}
   .wf-store-row .name{font-size:14px;font-weight:700}
   .wf-store-row .meta{font-size:12px;color:var(--text-secondary);margin-top:2px}
-  .wf-badge{font-size:11px;padding:4px 10px;border-radius:999px;font-weight:600;margin-left:auto}
-  .wf-badge.pending{background:var(--bg-warning);color:var(--text-warning)}
+  .wf-badge{font-size:11px;padding:4px 10px;border-radius:999px;font-weight:600;margin-left:auto;white-space:nowrap}
+  .wf-badge.pending{background:var(--surface-2);color:var(--text-muted);border:1px solid var(--border)}
+  .wf-badge.inprogress{background:var(--bg-warning);color:var(--text-warning)}
   .wf-badge.done{background:var(--bg-success);color:var(--text-success)}
 
   .wf-chip-group{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px}
-  .wf-chip{
-    padding:10px 16px;border-radius:999px;background:var(--surface-2);color:var(--text-secondary);
-    font-size:13px;font-weight:600;cursor:pointer;border:2px solid transparent;transition:.15s;
-  }
+  .wf-chip{padding:10px 16px;border-radius:999px;background:var(--surface-2);color:var(--text-secondary);font-size:13px;font-weight:600;cursor:pointer;border:2px solid transparent;transition:.15s}
   .wf-chip.selected{border-color:var(--primary);background:var(--bg-accent);color:var(--text-accent)}
 
-  .wf-corner-btn{
-    display:flex;flex-direction:column;align-items:center;gap:6px;padding:16px 8px;border-radius:var(--radius);
-    background:var(--surface-2);cursor:pointer;border:2px solid transparent;font-size:12.5px;font-weight:600;color:var(--text-secondary);
-  }
+  .wf-corner-btn{display:flex;flex-direction:column;align-items:center;gap:6px;padding:16px 8px;border-radius:var(--radius);background:var(--surface-2);cursor:pointer;border:2px solid transparent;font-size:12.5px;font-weight:600;color:var(--text-secondary)}
   .wf-corner-btn.selected{border-color:var(--primary);background:var(--bg-accent);color:var(--text-accent)}
   .wf-corner-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:20px}
 
-  .wf-upload-box{
-    border:2px dashed var(--border);border-radius:var(--radius);padding:28px;text-align:center;
-    color:var(--text-muted);font-size:13px;margin-bottom:20px;cursor:pointer;transition:.15s;
-  }
+  .wf-upload-box{border:2px dashed var(--border);border-radius:var(--radius);padding:28px;text-align:center;color:var(--text-muted);font-size:13px;margin-bottom:20px;cursor:pointer;transition:.15s}
   .wf-upload-box:hover{border-color:var(--primary);color:var(--text-accent)}
   .wf-upload-box.filled{border-style:solid;border-color:var(--text-success);color:var(--text-success);background:var(--bg-success)}
 
-  .wf-textarea{
-    width:100%;border:1px solid var(--border);border-radius:var(--radius);padding:12px 14px;font-size:13px;
-    font-family:inherit;resize:vertical;min-height:70px;margin-bottom:20px;
-  }
+  .wf-textarea{width:100%;border:1px solid var(--border);border-radius:var(--radius);padding:12px 14px;font-size:13px;font-family:inherit;resize:vertical;min-height:70px;margin-bottom:16px}
+  .wf-select,.wf-input{width:100%;border:1px solid var(--border);border-radius:var(--radius);padding:12px 14px;font-size:13px;font-family:inherit;margin-bottom:16px;background:var(--surface-1)}
+  .wf-field-label{font-size:12.5px;font-weight:600;color:var(--text-secondary);margin-bottom:8px;display:block}
 
   .wf-actions{display:flex;gap:10px;margin-top:8px}
-  .wf-btn-secondary{
-    flex:1;background:var(--surface-2);color:var(--text-secondary);box-shadow:none;
-  }
+  .wf-btn-secondary{flex:1;background:var(--surface-2);color:var(--text-secondary);box-shadow:none}
   .wf-btn-secondary:hover{background:var(--surface-3);transform:none}
   .wf-btn-primary{flex:2}
 
-  .wf-done-icon{
-    width:64px;height:64px;border-radius:50%;background:var(--bg-success);color:var(--text-success);
-    display:flex;align-items:center;justify-content:center;font-size:32px;margin:0 auto 20px;
-  }
+  .wf-done-icon{width:64px;height:64px;border-radius:50%;background:var(--bg-success);color:var(--text-success);display:flex;align-items:center;justify-content:center;font-size:32px;margin:0 auto 20px}
   .wf-summary-row{display:flex;justify-content:space-between;font-size:13px;padding:10px 0;border-bottom:1px solid var(--border)}
   .wf-summary-row:last-child{border-bottom:none}
+
+  .wf-result-header{font-size:17px;font-weight:700;margin-bottom:2px}
+  .wf-result-sub{font-size:12.5px;color:var(--text-success);font-weight:600;margin-bottom:20px}
+  .wf-check-list{display:flex;flex-direction:column;gap:8px;margin-bottom:24px}
+  .wf-check-item{display:flex;align-items:center;gap:10px;font-size:13.5px;color:var(--text-secondary)}
+  .wf-check-item .ck{color:var(--text-success);font-weight:700}
+
+  .wf-ai-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:24px}
+  .wf-ai-card{background:var(--surface-2);border-radius:var(--radius);padding:16px}
+  .wf-ai-card .label{font-size:12px;color:var(--text-secondary)}
+  .wf-ai-card .value{font-size:22px;font-weight:700;margin-top:6px}
+
+  .wf-mission-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px}
+  .wf-mission-sub{font-size:12px;color:var(--text-muted);margin-bottom:14px}
+  .wf-mission-list{display:flex;flex-direction:column;gap:8px;margin-bottom:24px}
+  .wf-mission-row{
+    display:flex;align-items:center;gap:12px;background:var(--surface-2);border-radius:var(--radius);
+    padding:14px 16px;cursor:pointer;transition:.15s;border:2px solid transparent;
+  }
+  .wf-mission-row:hover{border-color:var(--primary)}
+  .wf-mission-row.done{background:var(--bg-success)}
+  .wf-mission-row .icon{font-size:18px}
+  .wf-mission-row .label{flex:1;font-size:13.5px;font-weight:600}
+  .wf-mission-row.done .label{color:var(--text-success);text-decoration:line-through}
+  .wf-mission-check{font-size:16px;color:var(--border)}
+  .wf-mission-row.done .wf-mission-check{color:var(--text-success)}
+
+  .wf-tag-source{display:inline-block;font-size:11px;color:var(--text-accent);background:var(--bg-accent);padding:3px 10px;border-radius:999px;margin-bottom:16px;font-weight:600}
 </style>
 
 <div class="wf-wrap">
-  <h2 class="screen-caption" style="margin-bottom:24px;">근무자 입력 프로세스 — 출근 체크인부터 매대 촬영 업로드까지, 판촉사원이 실제로 매일 진행하는 입력 흐름을 하나로 연결한 화면입니다.</h2>
+  <h2 class="screen-caption" style="margin-bottom:24px;">근무자 입력 프로세스 v2 — 출근부터 매장별 방문(방문시작→촬영→방문결과→추가미션→업무종료)까지, 하루 업무와 매장 업무를 분리한 흐름입니다.</h2>
 
-  <!-- 스텝 인디케이터 -->
   <div class="wf-stepper" id="wfStepper">
     <div class="wf-step-col"><div class="wf-step-dot active" id="dot-1">1</div><div class="wf-step-label">출근</div></div>
     <div class="wf-step-line" id="line-1"></div>
@@ -91,7 +104,7 @@
     <div class="wf-step-line" id="line-2"></div>
     <div class="wf-step-col"><div class="wf-step-dot" id="dot-3">3</div><div class="wf-step-label">방문시작</div></div>
     <div class="wf-step-line" id="line-3"></div>
-    <div class="wf-step-col"><div class="wf-step-dot" id="dot-4">4</div><div class="wf-step-label">촬영업로드</div></div>
+    <div class="wf-step-col"><div class="wf-step-dot" id="dot-4">4</div><div class="wf-step-label">촬영</div></div>
   </div>
 
   <div class="wf-card">
@@ -99,48 +112,24 @@
     <!-- STEP 1: 출근 체크인 -->
     <div class="wf-panel active" id="wf-step1">
       <div class="wf-title">출근 체크인</div>
-      <div class="wf-sub">현재 위치를 확인하고 근무를 시작하세요.</div>
-
+      <div class="wf-sub">현재 위치를 확인하고 근무를 시작하세요. (하루 1회)</div>
       <div class="wf-info-row"><span>직원</span><span class="v">박〇〇 (판촉사원)</span></div>
       <div class="wf-info-row"><span>오늘 날짜</span><span class="v" id="wf-today"></span></div>
       <div class="wf-info-row"><span>현재 시각</span><span class="v" id="wf-now"></span></div>
-      <div class="wf-info-row"><span>위치 인증</span><span class="v" style="color:var(--text-success)">✓ GPS 확인됨 (영남 A마트 반경 내)</span></div>
-
+      <div class="wf-info-row"><span>위치 인증</span><span class="v" style="color:var(--text-success)">✓ GPS 확인됨</span></div>
       <div class="wf-actions" style="margin-top:24px">
-        <button class="wf-btn-primary" onclick="wfCheckIn()">출근하기</button>
+        <button class="wf-btn-primary" onclick="wfGoStep(2)">출근하기</button>
       </div>
     </div>
 
-    <!-- STEP 2: 오늘의 방문 목록 -->
+    <!-- STEP 2: 오늘 방문목록 -->
     <div class="wf-panel" id="wf-step2">
       <div class="wf-title">오늘의 방문 목록</div>
-      <div class="wf-sub">방문할 점포를 선택하세요. (총 3곳 · 1곳 완료)</div>
-
-      <div class="wf-store-row" data-store="영남 A마트" onclick="wfSelectStore(this,'영남 A마트')">
-        <div style="flex:1">
-          <div class="name">영남 A마트</div>
-          <div class="meta">최근 스코어 58점 · 정기방문</div>
-        </div>
-        <span class="wf-badge pending">미방문</span>
-      </div>
-      <div class="wf-store-row" data-store="영남 C마트" onclick="wfSelectStore(this,'영남 C마트')">
-        <div style="flex:1">
-          <div class="name">영남 C마트</div>
-          <div class="meta">최근 스코어 76점 · 정기방문</div>
-        </div>
-        <span class="wf-badge pending">미방문</span>
-      </div>
-      <div class="wf-store-row" style="opacity:.6;cursor:default" onclick="return false">
-        <div style="flex:1">
-          <div class="name">수도권 D마트</div>
-          <div class="meta">완료 · 09:12 방문</div>
-        </div>
-        <span class="wf-badge done">완료</span>
-      </div>
-
+      <div class="wf-sub" id="wf-list-sub">방문할 점포를 선택하세요.</div>
+      <div id="wf-store-list"></div>
       <div class="wf-actions">
         <button class="wf-btn-secondary" onclick="wfGoStep(1)">이전</button>
-        <button class="wf-btn-primary" id="wf-step2-next" onclick="wfGoStep(3)" disabled>방문 시작하기</button>
+        <button class="wf-btn-primary" id="wf-step2-next" onclick="wfStartSelectedVisit()" disabled>방문 시작하기</button>
       </div>
     </div>
 
@@ -148,20 +137,17 @@
     <div class="wf-panel" id="wf-step3">
       <div class="wf-title">방문 시작</div>
       <div class="wf-sub" id="wf-store-confirm">선택한 점포 방문을 시작합니다.</div>
-
       <div class="wf-info-row"><span>점포</span><span class="v" id="wf-store-name">-</span></div>
       <div class="wf-info-row"><span>시작 시각</span><span class="v" id="wf-visit-time">-</span></div>
-
       <div style="font-size:13px;font-weight:600;margin:20px 0 10px;">방문 유형</div>
       <div class="wf-chip-group">
         <div class="wf-chip selected" data-type="정기방문" onclick="wfSelectChip(this)">정기방문</div>
         <div class="wf-chip" data-type="긴급대응" onclick="wfSelectChip(this)">긴급대응</div>
         <div class="wf-chip" data-type="SV동행" onclick="wfSelectChip(this)">SV동행</div>
       </div>
-
       <div class="wf-actions">
         <button class="wf-btn-secondary" onclick="wfGoStep(2)">이전</button>
-        <button class="wf-btn-primary" onclick="wfStartVisit()">방문 시작하기</button>
+        <button class="wf-btn-primary" onclick="wfGoStep(4)">방문 시작하기</button>
       </div>
     </div>
 
@@ -169,54 +155,193 @@
     <div class="wf-panel" id="wf-step4">
       <div class="wf-title">매대 촬영 업로드</div>
       <div class="wf-sub">촬영할 코너를 선택하고 사진을 업로드하세요.</div>
-
       <div class="wf-corner-grid">
         <div class="wf-corner-btn selected" data-corner="냉동" onclick="wfSelectCorner(this)">🧊<span>냉동코너</span></div>
         <div class="wf-corner-btn" data-corner="냉장" onclick="wfSelectCorner(this)">🥶<span>냉장코너</span></div>
         <div class="wf-corner-btn" data-corner="상온" onclick="wfSelectCorner(this)">📦<span>상온코너</span></div>
         <div class="wf-corner-btn" data-corner="엔드매대" onclick="wfSelectCorner(this)">🛒<span>엔드매대</span></div>
       </div>
-
-      <div class="wf-upload-box" id="wf-upload-box" onclick="wfSimulateUpload()">
-        📷 탭하여 매대 사진 촬영/업로드
-      </div>
-
+      <div class="wf-upload-box" id="wf-upload-box" onclick="wfSimulateUpload()">📷 탭하여 매대 사진 촬영/업로드</div>
       <textarea class="wf-textarea" placeholder="특이사항 메모 (선택)"></textarea>
-
       <div class="wf-actions">
         <button class="wf-btn-secondary" onclick="wfGoStep(3)">이전</button>
-        <button class="wf-btn-primary" id="wf-submit-btn" onclick="wfSubmit()" disabled>제출하기</button>
+        <button class="wf-btn-primary" id="wf-submit-btn" onclick="wfSubmitCapture()" disabled>촬영 제출 (필수업무 완료)</button>
       </div>
     </div>
 
-    <!-- STEP 5(완료 화면, 스텝 인디케이터에는 미표시) -->
+    <!-- STEP 5: 방문결과 (허브) -->
     <div class="wf-panel" id="wf-step5">
-      <div class="wf-done-icon">✓</div>
-      <div class="wf-title" style="text-align:center">제출 완료</div>
-      <div class="wf-sub" style="text-align:center">촬영 데이터가 AI 스코어링 엔진(M1)으로 전송되었습니다.</div>
+      <div class="wf-link" onclick="wfGoStep(2)">← 오늘 방문목록</div>
+      <div class="wf-result-header" id="wf-r-store">영남A마트</div>
+      <div class="wf-result-sub">✓ 필수업무 완료 · AI 분석 완료</div>
 
-      <div class="wf-summary-row"><span>점포</span><span id="wf-sum-store">-</span></div>
-      <div class="wf-summary-row"><span>코너</span><span id="wf-sum-corner">-</span></div>
-      <div class="wf-summary-row"><span>제출 시각</span><span id="wf-sum-time">-</span></div>
-      <div class="wf-summary-row"><span>상태</span><span style="color:var(--text-warning);font-weight:600">AI 분석 대기중</span></div>
-
-      <div class="wf-actions" style="margin-top:20px">
-        <button class="wf-btn-secondary" onclick="wfResetToStore()">다른 코너 계속 촬영</button>
-        <button class="wf-btn-primary" onclick="wfBackToList()">방문 목록으로</button>
+      <div class="wf-check-list">
+        <div class="wf-check-item"><span class="ck">✔</span> 출근</div>
+        <div class="wf-check-item"><span class="ck">✔</span> 방문 시작</div>
+        <div class="wf-check-item"><span class="ck">✔</span> 촬영 업로드</div>
       </div>
+
+      <div class="wf-ai-grid">
+        <div class="wf-ai-card"><div class="label">Perfect Store</div><div class="value" id="wf-r-score">82점</div></div>
+        <div class="wf-ai-card"><div class="label">OOS</div><div class="value" style="color:var(--text-danger)" id="wf-r-oos">2건</div></div>
+        <div class="wf-ai-card"><div class="label">가격표</div><div class="value" style="font-size:15px;color:var(--text-warning)">1건 누락</div></div>
+        <div class="wf-ai-card"><div class="label">POP</div><div class="value" style="font-size:15px;color:var(--text-success)">정상</div></div>
+      </div>
+
+      <div class="wf-tag-source">이 매장에 오늘 내려온 미션</div>
+      <div class="wf-mission-head">
+        <span style="font-size:14px;font-weight:700">추가 미션</span>
+        <span style="font-size:12.5px;color:var(--text-secondary)" id="wf-mission-progress">0/0</span>
+      </div>
+      <div class="wf-mission-sub">선택 항목입니다. 필요한 미션만 수행하고 업무를 종료할 수 있습니다.</div>
+      <div class="wf-mission-list" id="wf-mission-list"></div>
+
+      <div class="wf-actions">
+        <button class="wf-btn-primary" onclick="wfFinishDuty()">업무 종료</button>
+      </div>
+    </div>
+
+    <!-- STEP 6: 추가미션 입력 (동적 폼) -->
+    <div class="wf-panel" id="wf-step6">
+      <div class="wf-link" onclick="wfGoStep(5)">← 방문결과로</div>
+      <div class="wf-title" id="wf-m-title">미션 입력</div>
+      <div class="wf-sub" id="wf-m-sub">필요한 정보를 입력하고 제출하세요.</div>
+      <div id="wf-mission-fields"></div>
+      <div class="wf-actions">
+        <button class="wf-btn-secondary" onclick="wfGoStep(5)">취소</button>
+        <button class="wf-btn-primary" onclick="wfSubmitMission()">제출</button>
+      </div>
+    </div>
+
+    <!-- STEP 7: 오늘 방문 완료 요약 -->
+    <div class="wf-panel" id="wf-step7">
+      <div class="wf-done-icon">🎉</div>
+      <div class="wf-title" style="text-align:center">오늘 방문 완료</div>
+      <div class="wf-sub" style="text-align:center">모든 매장 방문을 마쳤습니다. 수고하셨어요.</div>
+      <div class="wf-summary-row"><span>방문 점포</span><span id="wf-day-count">-</span></div>
+      <div class="wf-summary-row"><span>평균 Perfect Store</span><span id="wf-day-avg">-</span></div>
+      <div class="wf-summary-row"><span>총 OOS 건수</span><span id="wf-day-oos">-</span></div>
+      <div class="wf-summary-row"><span>추가미션 수행</span><span id="wf-day-mission">-</span></div>
+      <div class="wf-actions" style="margin-top:20px">
+        <button class="wf-btn-primary" onclick="wfGoStep(8)">퇴근하기</button>
+      </div>
+    </div>
+
+    <!-- STEP 8: 퇴근 완료 -->
+    <div class="wf-panel" id="wf-step8">
+      <div class="wf-done-icon">✓</div>
+      <div class="wf-title" style="text-align:center">퇴근 처리 완료</div>
+      <div class="wf-sub" style="text-align:center">오늘도 수고하셨습니다. 내일 뵙겠습니다.</div>
+      <div class="wf-summary-row"><span>퇴근 시각</span><span id="wf-checkout-time">-</span></div>
+      <div class="wf-summary-row"><span>총 근무시간</span><span>8시간 20분</span></div>
     </div>
 
   </div>
 </div>
 
 <script>
-  let wfSelectedStore = null;
+  const wfStores = [
+    { name:'영남A마트', status:'pending', score:null, oos:null,
+      missions:[
+        { key:'oos', label:'OOS 확인', icon:'📦', done:false },
+        { key:'competitor', label:'경쟁사 조사', icon:'🔍', done:false },
+        { key:'pop', label:'POP 확인', icon:'🏷️', done:false }
+      ]
+    },
+    { name:'영남C마트', status:'pending', score:null, oos:null,
+      missions:[
+        { key:'promo', label:'행사현황 조사', icon:'🎪', done:false },
+        { key:'order', label:'발주 요청', icon:'📝', done:false }
+      ]
+    },
+    { name:'영남D마트', status:'pending', score:null, oos:null,
+      missions:[
+        { key:'checklist', label:'체크리스트', icon:'✅', done:false },
+        { key:'note', label:'특이사항 메모', icon:'💬', done:false }
+      ]
+    }
+  ];
+
+  const wfMissionFieldTemplates = {
+    oos: `
+      <label class="wf-field-label">SKU 선택</label>
+      <select class="wf-select"><option>하림 순살치킨 500g</option><option>하림 닭가슴살 오리지널</option><option>하림 계란 15구</option></select>
+      <label class="wf-field-label">사진 첨부</label>
+      <div class="wf-upload-box" onclick="this.classList.add('filled');this.textContent='✓ 사진 첨부됨'">📷 탭하여 사진 첨부</div>
+      <label class="wf-field-label">사유</label>
+      <textarea class="wf-textarea" placeholder="예: 입고 지연으로 3일째 품절"></textarea>
+    `,
+    competitor: `
+      <label class="wf-field-label">경쟁 브랜드 선택</label>
+      <select class="wf-select"><option>경쟁사 A</option><option>경쟁사 B</option><option>기타</option></select>
+      <label class="wf-field-label">Facing 수</label>
+      <input class="wf-input" type="number" placeholder="예: 4">
+      <label class="wf-field-label">사진 첨부</label>
+      <div class="wf-upload-box" onclick="this.classList.add('filled');this.textContent='✓ 사진 첨부됨'">📷 탭하여 사진 첨부</div>
+    `,
+    promo: `
+      <label class="wf-field-label">행사 진행 여부</label>
+      <div class="wf-chip-group">
+        <div class="wf-chip selected" onclick="wfSelectChip(this)">진행중</div>
+        <div class="wf-chip" onclick="wfSelectChip(this)">미진행</div>
+      </div>
+      <label class="wf-field-label">POP 설치 여부</label>
+      <div class="wf-chip-group">
+        <div class="wf-chip selected" onclick="wfSelectChip(this)">설치됨</div>
+        <div class="wf-chip" onclick="wfSelectChip(this)">미설치</div>
+      </div>
+      <label class="wf-field-label">사진 첨부</label>
+      <div class="wf-upload-box" onclick="this.classList.add('filled');this.textContent='✓ 사진 첨부됨'">📷 탭하여 사진 첨부</div>
+    `,
+    pop: `
+      <label class="wf-field-label">POP 부착 상태</label>
+      <div class="wf-chip-group">
+        <div class="wf-chip selected" onclick="wfSelectChip(this)">정상</div>
+        <div class="wf-chip" onclick="wfSelectChip(this)">파손/누락</div>
+      </div>
+      <label class="wf-field-label">사진 첨부</label>
+      <div class="wf-upload-box" onclick="this.classList.add('filled');this.textContent='✓ 사진 첨부됨'">📷 탭하여 사진 첨부</div>
+    `,
+    order: `
+      <label class="wf-field-label">SKU</label>
+      <select class="wf-select"><option>하림 순살치킨 500g</option><option>하림 너겟 300g</option></select>
+      <label class="wf-field-label">현재 수량</label>
+      <input class="wf-input" type="number" placeholder="예: 3">
+      <label class="wf-field-label">권장 수량</label>
+      <input class="wf-input" type="number" placeholder="예: 12">
+      <label class="wf-field-label">메모</label>
+      <textarea class="wf-textarea" placeholder="선택 입력"></textarea>
+    `,
+    checklist: `
+      <label class="wf-field-label" style="margin-top:0">아래 항목을 확인하고 체크하세요</label>
+      <div class="wf-mission-list" style="margin-top:8px">
+        <div class="wf-mission-row" onclick="this.classList.toggle('done')"><span class="icon">🏷️</span><span class="label">가격표 확인</span><span class="wf-mission-check">✔</span></div>
+        <div class="wf-mission-row" onclick="this.classList.toggle('done')"><span class="icon">📐</span><span class="label">진열 상태 확인</span><span class="wf-mission-check">✔</span></div>
+        <div class="wf-mission-row" onclick="this.classList.toggle('done')"><span class="icon">🌡️</span><span class="label">냉장/냉동 온도 확인</span><span class="wf-mission-check">✔</span></div>
+      </div>
+    `,
+    note: `
+      <label class="wf-field-label">특이사항</label>
+      <textarea class="wf-textarea" placeholder="예: 매장 리모델링으로 다음 주 진열 위치 변경 예정" style="min-height:120px"></textarea>
+    `
+  };
+
+  const wfMissionMeta = {
+    oos:{title:'OOS 확인', sub:'품절이 의심되는 SKU를 신고합니다.'},
+    competitor:{title:'경쟁사 조사', sub:'경쟁 브랜드의 진열 현황을 기록합니다.'},
+    promo:{title:'행사현황 조사', sub:'현재 진행 중인 행사와 POP 설치 여부를 확인합니다.'},
+    pop:{title:'POP 확인', sub:'POP 부착 상태를 확인합니다.'},
+    order:{title:'발주 요청', sub:'재고 부족 SKU의 발주를 요청합니다.'},
+    checklist:{title:'체크리스트', sub:'기본 점검 항목을 확인합니다.'},
+    note:{title:'특이사항 메모', sub:'전달할 특이사항을 자유롭게 작성합니다.'}
+  };
+
+  let wfCurrentIdx = 0;
+  let wfVisitingIdx = 0;
+  let wfCurrentMissionKey = null;
 
   function wfPad(n){ return n.toString().padStart(2,'0'); }
-  function wfNowStr(){
-    const d = new Date();
-    return `${wfPad(d.getHours())}:${wfPad(d.getMinutes())}`;
-  }
+  function wfNowStr(){ const d = new Date(); return `${wfPad(d.getHours())}:${wfPad(d.getMinutes())}`; }
   (function wfInitClock(){
     const d = new Date();
     document.getElementById('wf-today').textContent = `${d.getFullYear()}.${wfPad(d.getMonth()+1)}.${wfPad(d.getDate())}`;
@@ -227,40 +352,68 @@
     document.querySelectorAll('.wf-panel').forEach(p => p.classList.remove('active'));
     document.getElementById('wf-step' + n).classList.add('active');
 
-    for(let i=1;i<=4;i++){
-      const dot = document.getElementById('dot-'+i);
-      dot.classList.remove('active','done');
-      if(i < n) dot.classList.add('done');
-      else if(i === n) dot.classList.add('active');
+    const showStepper = (n >= 1 && n <= 4);
+    document.getElementById('wfStepper').style.display = showStepper ? 'flex' : 'none';
+    if(showStepper){
+      for(let i=1;i<=4;i++){
+        const dot = document.getElementById('dot-'+i);
+        dot.classList.remove('active','done');
+        if(i < n) dot.classList.add('done');
+        else if(i === n) dot.classList.add('active');
+      }
+      for(let i=1;i<=3;i++){
+        document.getElementById('line-'+i).classList.toggle('done', i < n);
+      }
     }
-    for(let i=1;i<=3;i++){
-      const line = document.getElementById('line-'+i);
-      line.classList.toggle('done', i < n);
-    }
-    document.getElementById('wfStepper').style.display = (n === 5) ? 'none' : 'flex';
+    if(n === 2) wfRenderStoreList();
+    if(n === 5) wfRenderVisitResult();
+    if(n === 8) document.getElementById('wf-checkout-time').textContent = wfNowStr();
   }
 
-  function wfCheckIn(){
-    wfGoStep(2);
+  function wfRenderStoreList(){
+    const wrap = document.getElementById('wf-store-list');
+    wrap.innerHTML = '';
+    const doneCount = wfStores.filter(s => s.status === 'done').length;
+    document.getElementById('wf-list-sub').textContent = `방문할 점포를 선택하세요. (총 ${wfStores.length}곳 · ${doneCount}곳 완료)`;
+
+    wfStores.forEach((s, idx) => {
+      const row = document.createElement('div');
+      const isDone = s.status === 'done';
+      row.className = 'wf-store-row' + (isDone ? ' disabled' : '');
+      const badgeClass = isDone ? 'done' : (s.status === 'inprogress' ? 'inprogress' : 'pending');
+      const badgeText = isDone ? '완료' : (s.status === 'inprogress' ? '진행중' : '미방문');
+      const missionInfo = isDone ? `추가미션 ${s.missions.filter(m=>m.done).length}/${s.missions.length} · Perfect ${s.score}점` : '정기방문';
+      row.innerHTML = `
+        <div style="flex:1">
+          <div class="name">${s.name}</div>
+          <div class="meta">${missionInfo}</div>
+        </div>
+        <span class="wf-badge ${badgeClass}">${badgeText}</span>
+      `;
+      if(!isDone){
+        row.onclick = () => {
+          document.querySelectorAll('.wf-store-row').forEach(r => r.classList.remove('selected'));
+          row.classList.add('selected');
+          wfCurrentIdx = idx;
+          document.getElementById('wf-step2-next').disabled = false;
+        };
+      }
+      wrap.appendChild(row);
+    });
   }
 
-  function wfSelectStore(el, name){
-    document.querySelectorAll('.wf-store-row[data-store]').forEach(r => r.classList.remove('selected'));
-    el.classList.add('selected');
-    wfSelectedStore = name;
-    document.getElementById('wf-step2-next').disabled = false;
+  function wfStartSelectedVisit(){
+    wfVisitingIdx = wfCurrentIdx;
+    wfStores[wfVisitingIdx].status = 'inprogress';
+    document.getElementById('wf-store-name').textContent = wfStores[wfVisitingIdx].name;
+    document.getElementById('wf-store-confirm').textContent = `${wfStores[wfVisitingIdx].name} 방문을 시작합니다.`;
+    document.getElementById('wf-visit-time').textContent = wfNowStr();
+    wfGoStep(3);
   }
 
   function wfSelectChip(el){
     el.parentElement.querySelectorAll('.wf-chip').forEach(c => c.classList.remove('selected'));
     el.classList.add('selected');
-  }
-
-  function wfStartVisit(){
-    document.getElementById('wf-store-name').textContent = wfSelectedStore || '-';
-    document.getElementById('wf-store-confirm').textContent = `${wfSelectedStore} 방문을 시작합니다.`;
-    document.getElementById('wf-visit-time').textContent = wfNowStr();
-    wfGoStep(4);
   }
 
   function wfSelectCorner(el){
@@ -275,23 +428,68 @@
     document.getElementById('wf-submit-btn').disabled = false;
   }
 
-  function wfSubmit(){
-    const corner = document.querySelector('.wf-corner-btn.selected')?.dataset.corner || '-';
-    document.getElementById('wf-sum-store').textContent = wfSelectedStore || '-';
-    document.getElementById('wf-sum-corner').textContent = corner;
-    document.getElementById('wf-sum-time').textContent = wfNowStr();
+  function wfSubmitCapture(){
+    const store = wfStores[wfVisitingIdx];
+    store.score = Math.floor(70 + Math.random() * 25);
+    store.oos = Math.floor(Math.random() * 3);
     wfGoStep(5);
   }
 
-  function wfResetToStore(){
-    const box = document.getElementById('wf-upload-box');
-    box.classList.remove('filled');
-    box.textContent = '📷 탭하여 매대 사진 촬영/업로드';
-    document.getElementById('wf-submit-btn').disabled = true;
-    wfGoStep(4);
+  function wfRenderVisitResult(){
+    const store = wfStores[wfVisitingIdx];
+    document.getElementById('wf-r-store').textContent = store.name;
+    document.getElementById('wf-r-score').textContent = store.score + '점';
+    document.getElementById('wf-r-oos').textContent = store.oos + '건';
+
+    const doneCount = store.missions.filter(m => m.done).length;
+    document.getElementById('wf-mission-progress').textContent = `${doneCount}/${store.missions.length}`;
+
+    const list = document.getElementById('wf-mission-list');
+    list.innerHTML = '';
+    store.missions.forEach(m => {
+      const row = document.createElement('div');
+      row.className = 'wf-mission-row' + (m.done ? ' done' : '');
+      row.innerHTML = `<span class="icon">${m.icon}</span><span class="label">${m.label}</span><span class="wf-mission-check">✔</span>`;
+      row.onclick = () => wfOpenMission(m.key);
+      list.appendChild(row);
+    });
   }
 
-  function wfBackToList(){
-    wfGoStep(2);
+  function wfOpenMission(key){
+    wfCurrentMissionKey = key;
+    document.getElementById('wf-m-title').textContent = wfMissionMeta[key].title;
+    document.getElementById('wf-m-sub').textContent = wfMissionMeta[key].sub;
+    document.getElementById('wf-mission-fields').innerHTML = wfMissionFieldTemplates[key];
+    wfGoStep(6);
+  }
+
+  function wfSubmitMission(){
+    const store = wfStores[wfVisitingIdx];
+    const mission = store.missions.find(m => m.key === wfCurrentMissionKey);
+    if(mission) mission.done = true;
+    wfGoStep(5);
+  }
+
+  function wfFinishDuty(){
+    const store = wfStores[wfVisitingIdx];
+    store.status = 'done';
+
+    const nextIdx = wfStores.findIndex(s => s.status === 'pending');
+    if(nextIdx !== -1){
+      wfCurrentIdx = nextIdx;
+      wfGoStep(2);
+    } else {
+      const doneStores = wfStores.filter(s => s.status === 'done');
+      const avg = Math.round(doneStores.reduce((a,s)=>a+s.score,0) / doneStores.length);
+      const totalOos = doneStores.reduce((a,s)=>a+s.oos,0);
+      const totalMissionDone = doneStores.reduce((a,s)=>a+s.missions.filter(m=>m.done).length,0);
+      const totalMissionAll = doneStores.reduce((a,s)=>a+s.missions.length,0);
+
+      document.getElementById('wf-day-count').textContent = doneStores.length + '개';
+      document.getElementById('wf-day-avg').textContent = avg + '점';
+      document.getElementById('wf-day-oos').textContent = totalOos + '건';
+      document.getElementById('wf-day-mission').textContent = `${totalMissionDone}/${totalMissionAll}`;
+      wfGoStep(7);
+    }
   }
 </script>
