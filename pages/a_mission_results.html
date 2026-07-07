@@ -93,7 +93,7 @@
 </div>
 
 <script>
-  const mrMissionMeta = {
+  var mrMissionMeta = {
     oos:{label:'OOS 확인', icon:'📦'},
     competitor:{label:'경쟁사 조사', icon:'🔍'},
     pop:{label:'POP 확인', icon:'🏷️'},
@@ -104,7 +104,7 @@
   };
 
   // 근무자 앱(w_worker_flow.html)에서 제출된 값이 실제로는 여기로 쌓이는 구조라고 가정한 목데이터
-  const mrRecords = [
+  var mrRecords = [
     { store:'영남A마트', channel:'대형마트', worker:'박〇〇', missionKey:'oos', time:'09:42',
       detail:[['SKU','하림 순살치킨 500g'],['사유','입고 지연으로 3일째 품절']], photo:true },
     { store:'영남A마트', channel:'대형마트', worker:'박〇〇', missionKey:'competitor', time:'09:47',

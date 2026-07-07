@@ -76,7 +76,7 @@
 </div>
 
 <script>
-  const vbWorkers = [
+  var vbWorkers = [
     { name:'박〇〇', checkin:'08:55', status:'working',
       stores:[
         { name:'영남A마트', status:'done', score:82, oos:2, missionDone:3, missionTotal:3 },
@@ -97,12 +97,12 @@
     }
   ];
 
-  const vbStatusMeta = {
+  var vbStatusMeta = {
     working:{label:'근무중', cls:'working'},
     offduty:{label:'퇴근완료', cls:'offduty'},
     absent:{label:'미출근', cls:'absent'}
   };
-  const vbStoreStatusMeta = {
+  var vbStoreStatusMeta = {
     done:{label:'✓', cls:'done'},
     inprogress:{label:'🕓', cls:'inprogress'},
     pending:{label:'⚪', cls:'pending'}

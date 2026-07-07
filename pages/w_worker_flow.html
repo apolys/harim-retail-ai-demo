@@ -240,7 +240,7 @@
 </div>
 
 <script>
-  const wfStores = [
+  var wfStores = [
     { name:'영남A마트', status:'pending', score:null, oos:null,
       missions:[
         { key:'oos', label:'OOS 확인', icon:'📦', done:false },
@@ -262,7 +262,7 @@
     }
   ];
 
-  const wfMissionFieldTemplates = {
+  var wfMissionFieldTemplates = {
     oos: `
       <label class="wf-field-label">SKU 선택</label>
       <select class="wf-select"><option>하림 순살치킨 500g</option><option>하림 닭가슴살 오리지널</option><option>하림 계란 15구</option></select>
@@ -331,7 +331,7 @@
     `
   };
 
-  const wfMissionMeta = {
+  var wfMissionMeta = {
     oos:{title:'OOS 확인', sub:'품절이 의심되는 SKU를 신고합니다.'},
     competitor:{title:'경쟁사 조사', sub:'경쟁 브랜드의 진열 현황을 기록합니다.'},
     promo:{title:'행사현황 조사', sub:'현재 진행 중인 행사와 POP 설치 여부를 확인합니다.'},
@@ -341,9 +341,9 @@
     note:{title:'특이사항 메모', sub:'전달할 특이사항을 자유롭게 작성합니다.'}
   };
 
-  let wfCurrentIdx = 0;
-  let wfVisitingIdx = 0;
-  let wfCurrentMissionKey = null;
+  var wfCurrentIdx = 0;
+  var wfVisitingIdx = 0;
+  var wfCurrentMissionKey = null;
 
   function wfPad(n){ return n.toString().padStart(2,'0'); }
   function wfNowStr(){ const d = new Date(); return `${wfPad(d.getHours())}:${wfPad(d.getMinutes())}`; }
