@@ -78,6 +78,31 @@
     color: #FAEEDA;
     border-bottom-color: #FAC775;
   }
+  .nav-divider{
+    display:flex;
+    align-items:center;
+    color:#6b6a63;
+    font-size:11px;
+    font-weight:600;
+    padding:0 10px;
+    white-space:nowrap;
+  }
+  .nav-divider::before{
+    content:"";
+    display:inline-block;
+    width:1px;
+    height:18px;
+    background:#3a3a36;
+    margin-right:10px;
+  }
+  @media (max-width:760px){
+    .nav-divider{
+      width:100%;
+      padding:10px 12px 4px;
+      border-top:1px solid #2c2c2a;
+    }
+    .nav-divider::before{ display:none; }
+  }
 
   /* ============================================
      모바일: 메뉴가 화면을 가리지 않도록 햄버거 버튼으로 접기/펼치기
@@ -170,17 +195,18 @@
 <script>
   // ⚙️ 실제 파일명이 다르면 file 값만 수정하세요.
   const pages = [
-    { id: "arch", label: "시스템 아키텍처",         file: "system_architecture.html", type: "html" },
-    { id: "data", label: "데이터 레이어",           file: "data_layer_schema.html", type: "html" },
-    { id: "m3", label: "M3. 통합 대시보드",        file: "m3_integrated_dashboard.html", type: "html" },
-    { id: "m1", label: "M1. AI 매대 스코어링",   file: "m1_ai_shelf_scoring_mobile.html", type: "html" },
-    { id: "m2", label: "M2. OOS 관리",            file: "m2_oos_alert_list_mobile.html", type: "html" },
-    { id: "m4", label: "M4. 이미지 캡처",          file: "m4_ar_capture_guide.html", type: "html" },
-    { id: "m5", label: "M5. 경쟁사 데이터",        file: "m5_competitor_comparison.html", type: "html" },
-    { id: "m6", label: "M6. 고객접점 연계",        file: "m6_customer_recommendation_nudge.html", type: "html" },
-    { id: "m7", label: "M7. ROI 엔진",             file: "m7_roi_engine_ranking.html", type: "html" },
-    { id: "m8", label: "M8. SPLH 인력운영",        file: "m8_splh_workforce_scheduling.html", type: "html" },
-    { id: "exec", label: "경영진 대시보드",         file: "executive_dashboard_mockup.html", type: "html" },
+    { id: "arch", label: "시스템 아키텍처",         file: "system_architecture.html", type: "html", group: "결과" },
+    { id: "data", label: "데이터 레이어",           file: "data_layer_schema.html", type: "html", group: "결과" },
+    { id: "m3", label: "M3. 통합 대시보드",        file: "m3_integrated_dashboard.html", type: "html", group: "결과" },
+    { id: "m1", label: "M1. AI 매대 스코어링",   file: "m1_ai_shelf_scoring_mobile.html", type: "html", group: "결과" },
+    { id: "m2", label: "M2. OOS 관리",            file: "m2_oos_alert_list_mobile.html", type: "html", group: "결과" },
+    { id: "m4", label: "M4. 이미지 캡처",          file: "m4_ar_capture_guide.html", type: "html", group: "결과" },
+    { id: "m5", label: "M5. 경쟁사 데이터",        file: "m5_competitor_comparison.html", type: "html", group: "결과" },
+    { id: "m6", label: "M6. 고객접점 연계",        file: "m6_customer_recommendation_nudge.html", type: "html", group: "결과" },
+    { id: "m7", label: "M7. ROI 엔진",             file: "m7_roi_engine_ranking.html", type: "html", group: "결과" },
+    { id: "m8", label: "M8. SPLH 인력운영",        file: "m8_splh_workforce_scheduling.html", type: "html", group: "결과" },
+    { id: "exec", label: "경영진 대시보드",         file: "executive_dashboard_mockup.html", type: "html", group: "결과" },
+    { id: "wflow", label: "근무자 입력 프로세스",   file: "w_worker_flow.html", type: "html", group: "입력" },
   ];
 
   const nav = document.getElementById("nav");
@@ -287,6 +313,12 @@
   }
 
   pages.forEach((page, i) => {
+    if (i > 0 && page.group && page.group !== pages[i-1].group) {
+      const divider = document.createElement("span");
+      divider.className = "nav-divider";
+      divider.textContent = page.group;
+      nav.appendChild(divider);
+    }
     const btn = document.createElement("button");
     btn.textContent = page.label;
     btn.onclick = () => loadPage(page, btn);
