@@ -190,10 +190,10 @@
 
       <div class="wf-tag-source">이 매장에 오늘 내려온 미션</div>
       <div class="wf-mission-head">
-        <span style="font-size:14px;font-weight:700">추가 미션</span>
-        <span style="font-size:12.5px;color:var(--text-secondary)" id="wf-mission-progress">0/0</span>
+        <span style="font-size:14px;font-weight:700">오늘 미션</span>
+        <span style="font-size:12.5px;color:var(--text-secondary)" id="wf-mission-progress">0/0 완료</span>
       </div>
-      <div class="wf-mission-sub">선택 항목입니다. 필요한 미션만 수행하고 업무를 종료할 수 있습니다.</div>
+      <div class="wf-mission-sub">관리자가 이 매장에 배정한 업무입니다. 필요한 항목만 수행하고 업무를 종료할 수 있습니다.</div>
       <div class="wf-mission-list" id="wf-mission-list"></div>
 
       <div class="wf-actions">
@@ -297,7 +297,9 @@
       <label class="wf-field-label">POP 부착 상태</label>
       <div class="wf-chip-group">
         <div class="wf-chip selected" onclick="wfSelectChip(this)">정상</div>
-        <div class="wf-chip" onclick="wfSelectChip(this)">파손/누락</div>
+        <div class="wf-chip" onclick="wfSelectChip(this)">파손</div>
+        <div class="wf-chip" onclick="wfSelectChip(this)">미부착</div>
+        <div class="wf-chip" onclick="wfSelectChip(this)">교체 필요</div>
       </div>
       <label class="wf-field-label">사진 첨부</label>
       <div class="wf-upload-box" onclick="this.classList.add('filled');this.textContent='✓ 사진 첨부됨'">📷 탭하여 사진 첨부</div>
@@ -318,11 +320,14 @@
         <div class="wf-mission-row" onclick="this.classList.toggle('done')"><span class="icon">🏷️</span><span class="label">가격표 확인</span><span class="wf-mission-check">✔</span></div>
         <div class="wf-mission-row" onclick="this.classList.toggle('done')"><span class="icon">📐</span><span class="label">진열 상태 확인</span><span class="wf-mission-check">✔</span></div>
         <div class="wf-mission-row" onclick="this.classList.toggle('done')"><span class="icon">🌡️</span><span class="label">냉장/냉동 온도 확인</span><span class="wf-mission-check">✔</span></div>
+        <div class="wf-mission-row" onclick="this.classList.toggle('done')"><span class="icon">➕</span><span class="label">기타 체크항목</span><span class="wf-mission-check">✔</span></div>
       </div>
     `,
     note: `
       <label class="wf-field-label">특이사항</label>
       <textarea class="wf-textarea" placeholder="예: 매장 리모델링으로 다음 주 진열 위치 변경 예정" style="min-height:120px"></textarea>
+      <label class="wf-field-label">사진 첨부 (선택)</label>
+      <div class="wf-upload-box" onclick="this.classList.add('filled');this.textContent='✓ 사진 첨부됨'">📷 탭하여 사진 첨부</div>
     `
   };
 
@@ -442,7 +447,7 @@
     document.getElementById('wf-r-oos').textContent = store.oos + '건';
 
     const doneCount = store.missions.filter(m => m.done).length;
-    document.getElementById('wf-mission-progress').textContent = `${doneCount}/${store.missions.length}`;
+    document.getElementById('wf-mission-progress').textContent = `${doneCount}/${store.missions.length} 완료`;
 
     const list = document.getElementById('wf-mission-list');
     list.innerHTML = '';
