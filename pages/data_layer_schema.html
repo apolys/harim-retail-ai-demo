@@ -102,17 +102,18 @@
   <!-- ScoreRecord -->
   <div class="entity card">
     <div class="entity-head"><h3>ScoreRecord</h3><span class="en">스코어 결과</span></div>
-    <div class="entity-desc">AI 이미지 분석으로 산출된 방문별 Perfect Store Score. M1 모듈의 산출 결과가 저장되는 테이블.</div>
+    <div class="entity-desc">AI 이미지 분석으로 산출된 방문별 Perfect Store Score. M1 모듈의 산출 결과가 저장되는 테이블. total_score = availability×25% + planogram×25% + price_accuracy×20% + pop×15% + shelf_condition×15%</div>
     <span class="rel">1:1 VisitRecord</span><span class="rel">N:1 Store</span>
     <table class="schema">
       <tr><th>필드</th><th>타입</th><th>설명</th><th>예시</th></tr>
       <tr><td class="field">score_id <span class="tag badge-pk">PK</span></td><td class="type">string</td><td>스코어 레코드 ID</td><td>SC-20260703-041</td></tr>
       <tr><td class="field">visit_id <span class="tag badge-fk">FK</span></td><td class="type">string</td><td>연결된 방문</td><td>VS-20260703-041</td></tr>
-      <tr><td class="field">availability_score</td><td class="type">int (0-100)</td><td>재고가용성 점수</td><td>72</td></tr>
-      <tr><td class="field">planogram_score</td><td class="type">int (0-100)</td><td>플래노그램 준수 점수</td><td>95</td></tr>
-      <tr><td class="field">price_accuracy_score</td><td class="type">int (0-100)</td><td>가격 정합성 점수</td><td>80</td></tr>
-      <tr><td class="field">pop_score</td><td class="type">int (0-100)</td><td>POP 부착 점수</td><td>100</td></tr>
-      <tr><td class="field">total_score</td><td class="type">int (0-100)</td><td>가중합산 종합 점수</td><td>78</td></tr>
+      <tr><td class="field">availability_score</td><td class="type">int (0-100)</td><td>재고가용성 점수 (가중치 25%)</td><td>72</td></tr>
+      <tr><td class="field">planogram_score</td><td class="type">int (0-100)</td><td>플래노그램 준수 점수 · Facing 기준 (가중치 25%)</td><td>95</td></tr>
+      <tr><td class="field">price_accuracy_score</td><td class="type">int (0-100)</td><td>가격 정합성 점수 (가중치 20%)</td><td>80</td></tr>
+      <tr><td class="field">pop_score</td><td class="type">int (0-100)</td><td>POP 부착 점수 (가중치 15%)</td><td>100</td></tr>
+      <tr><td class="field">shelf_condition_score</td><td class="type">int (0-100)</td><td>매대 정돈·진열방향·온도 등 (가중치 15%)</td><td>82</td></tr>
+      <tr><td class="field">total_score</td><td class="type">int (0-100)</td><td>가중합산 종합 점수</td><td>85</td></tr>
       <tr><td class="field">detected_issues</td><td class="type">array&lt;string&gt;</td><td>탐지된 이슈 유형</td><td>[품절, 가격오류]</td></tr>
     </table>
   </div>

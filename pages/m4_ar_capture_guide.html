@@ -186,7 +186,10 @@
       var isFail = /부족|의심|불량|과다노출/.test(r);
       return '<div class="m4-result-check ' + (isFail ? 'fail' : 'pass') + '">' + r + '</div>';
     }).join('');
-    m4ResultBox.innerHTML = '<div class="m4-result-score ' + scoreClass + '">' + data.score + '점</div>' + reasonHtml;
+    var aiBtnHtml = data.capture_ok
+      ? '<button onclick="window.navigate(\'ai-detail\')" style="width:100%;margin-top:12px;background:#3a3a36;color:#FAEEDA;border:1px solid #55534c;border-radius:12px;padding:12px;font-size:13px;font-weight:600;box-shadow:none;">🔍 AI 상세 분석 결과 보기</button>'
+      : '';
+    m4ResultBox.innerHTML = '<div class="m4-result-score ' + scoreClass + '">' + data.score + '점</div>' + reasonHtml + aiBtnHtml;
     m4ResultBox.style.display = 'block';
   }
 
