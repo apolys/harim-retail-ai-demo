@@ -188,11 +188,11 @@
     <!-- STEP 4: 매대 촬영 업로드 -->
     <div class="wf-panel" id="wf-step4">
       <div class="wf-title">매대 촬영 업로드</div>
-      <div class="wf-sub">촬영할 코너를 선택하고 사진을 촬영하세요. 촬영 즉시 AI가 촬영 품질을 확인합니다.</div>
+      <div class="wf-sub">촬영할 매대를 선택하고 사진을 촬영하세요. 촬영 즉시 AI가 촬영 품질을 확인합니다.</div>
       <div class="wf-corner-grid">
-        <div class="wf-corner-btn selected" data-corner="냉동" onclick="wfSelectCorner(this)">🧊<span>냉동코너</span></div>
-        <div class="wf-corner-btn" data-corner="냉장" onclick="wfSelectCorner(this)">🥶<span>냉장코너</span></div>
-        <div class="wf-corner-btn" data-corner="상온" onclick="wfSelectCorner(this)">📦<span>상온코너</span></div>
+        <div class="wf-corner-btn selected" data-corner="상온 매대" onclick="wfSelectCorner(this)">📦<span>상온 매대</span></div>
+        <div class="wf-corner-btn" data-corner="냉장 매대" onclick="wfSelectCorner(this)">🥶<span>냉장 매대</span></div>
+        <div class="wf-corner-btn" data-corner="본매대" onclick="wfSelectCorner(this)">🏬<span>본매대</span></div>
         <div class="wf-corner-btn" data-corner="엔드매대" onclick="wfSelectCorner(this)">🛒<span>엔드매대</span></div>
       </div>
 
@@ -375,7 +375,7 @@
       <div class="wf-mission-list" style="margin-top:8px">
         <div class="wf-mission-row" onclick="this.classList.toggle('done')"><span class="icon">🏷️</span><span class="label">가격표 확인</span><span class="wf-mission-check">✔</span></div>
         <div class="wf-mission-row" onclick="this.classList.toggle('done')"><span class="icon">📐</span><span class="label">진열 상태 확인</span><span class="wf-mission-check">✔</span></div>
-        <div class="wf-mission-row" onclick="this.classList.toggle('done')"><span class="icon">🌡️</span><span class="label">냉장/냉동 온도 확인</span><span class="wf-mission-check">✔</span></div>
+        <div class="wf-mission-row" onclick="this.classList.toggle('done')"><span class="icon">🌡️</span><span class="label">냉장·냉동 보관 온도 확인</span><span class="wf-mission-check">✔</span></div>
         <div class="wf-mission-row" onclick="this.classList.toggle('done')"><span class="icon">➕</span><span class="label">기타 체크항목</span><span class="wf-mission-check">✔</span></div>
       </div>
     `,

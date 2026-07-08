@@ -70,6 +70,8 @@
       <tr><td class="field">sku_id <span class="tag badge-pk">PK</span></td><td class="type">string</td><td>SKU 고유 ID</td><td>SKU-88213</td></tr>
       <tr><td class="field">product_name</td><td class="type">string</td><td>상품명</td><td>더미식 장인라면 얼큰한맛</td></tr>
       <tr><td class="field">category_l / category_m / category_s</td><td class="type">string</td><td>대/중/소 카테고리</td><td>가정간편식(HMR) / 면류 / 봉지라면</td></tr>
+      <tr><td class="field">display_zone</td><td class="type">enum</td><td>기본 진열 매대 구분 (진열 위치, storage와 무관)</td><td>상온 매대(ROOM_TEMP) / 냉장 매대(REFRIGERATED) / 본매대(MAIN_DISPLAY) / 엔드매대(END_DISPLAY)</td></tr>
+      <tr><td class="field">storage</td><td class="type">enum</td><td>보관 방법 (보관 방식, display_zone과 무관)</td><td>상온 / 냉장 / 냉동</td></tr>
       <tr><td class="field">barcode</td><td class="type">string</td><td>바코드(EAN-13)</td><td>8801234567890</td></tr>
       <tr><td class="field">unit_price</td><td class="type">number</td><td>표준 판매단가(원)</td><td>6,980</td></tr>
       <tr><td class="field">unit</td><td class="type">string</td><td>단위</td><td>g / ea / kg</td></tr>
@@ -91,6 +93,7 @@
       <tr><td class="field">visit_datetime</td><td class="type">datetime</td><td>방문 일시</td><td>2026-07-03T14:32:00</td></tr>
       <tr><td class="field">visit_type</td><td class="type">enum</td><td>방문 유형</td><td>정기방문 / 긴급대응 / SV동행</td></tr>
       <tr><td class="field">photo_urls</td><td class="type">array&lt;string&gt;</td><td>촬영 이미지 URL 목록</td><td>[img1.jpg, img2.jpg]</td></tr>
+      <tr><td class="field">captured_zones</td><td class="type">array&lt;enum&gt;</td><td>촬영 완료된 매대 목록</td><td>[상온 매대, 냉장 매대]</td></tr>
       <tr><td class="field">duration_minutes</td><td class="type">int</td><td>방문 소요 시간(분)</td><td>18</td></tr>
       <tr><td class="field">gps_verified</td><td class="type">boolean</td><td>방문 위치 GPS 검증 여부</td><td>true</td></tr>
     </table>
@@ -124,6 +127,7 @@
       <tr><td class="field">alert_id <span class="tag badge-pk">PK</span></td><td class="type">string</td><td>알림 고유 ID</td><td>OOS-88231</td></tr>
       <tr><td class="field">store_id <span class="tag badge-fk">FK</span></td><td class="type">string</td><td>대상 점포</td><td>ST-10231</td></tr>
       <tr><td class="field">sku_id <span class="tag badge-fk">FK</span></td><td class="type">string</td><td>품절 SKU</td><td>SKU-88213</td></tr>
+      <tr><td class="field">display_zone</td><td class="type">enum</td><td>탐지된 매대 위치</td><td>본매대 / 냉장 매대 / 상온 매대 / 엔드매대</td></tr>
       <tr><td class="field">detected_at</td><td class="type">datetime</td><td>탐지 시각</td><td>2026-07-03T09:00:00</td></tr>
       <tr><td class="field">status</td><td class="type">enum</td><td>처리 상태</td><td>신규 / 확인중 / 완료</td></tr>
       <tr><td class="field">resolved_at</td><td class="type">datetime (nullable)</td><td>처리 완료 시각</td><td>2026-07-03T11:20:00</td></tr>
