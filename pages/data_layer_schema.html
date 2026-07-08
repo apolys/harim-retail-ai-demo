@@ -49,7 +49,7 @@
     <table class="schema">
       <tr><th>필드</th><th>타입</th><th>설명</th><th>예시</th></tr>
       <tr><td class="field">store_id <span class="tag badge-pk">PK</span></td><td class="type">string</td><td>점포 고유 ID</td><td>ST-10231</td></tr>
-      <tr><td class="field">store_name</td><td class="type">string</td><td>점포명</td><td>영남 A마트</td></tr>
+      <tr><td class="field">store_name</td><td class="type">string</td><td>점포명</td><td>이마트 해운대점</td></tr>
       <tr><td class="field">channel</td><td class="type">enum</td><td>유통 채널</td><td>대형마트 / SSM / 편의점 / 온라인</td></tr>
       <tr><td class="field">region</td><td class="type">string</td><td>권역</td><td>영남</td></tr>
       <tr><td class="field">segment</td><td class="type">enum</td><td>점포 세그먼트(전략 분류)</td><td>핵심점 / 일반점 / 관리점</td></tr>
@@ -68,8 +68,8 @@
     <table class="schema">
       <tr><th>필드</th><th>타입</th><th>설명</th><th>예시</th></tr>
       <tr><td class="field">sku_id <span class="tag badge-pk">PK</span></td><td class="type">string</td><td>SKU 고유 ID</td><td>SKU-88213</td></tr>
-      <tr><td class="field">product_name</td><td class="type">string</td><td>상품명</td><td>하림 순살치킨 500g</td></tr>
-      <tr><td class="field">category_l / category_m / category_s</td><td class="type">string</td><td>대/중/소 카테고리</td><td>축산가공 / 닭고기 / 냉동치킨</td></tr>
+      <tr><td class="field">product_name</td><td class="type">string</td><td>상품명</td><td>더미식 장인라면 얼큰한맛</td></tr>
+      <tr><td class="field">category_l / category_m / category_s</td><td class="type">string</td><td>대/중/소 카테고리</td><td>가정간편식(HMR) / 면류 / 봉지라면</td></tr>
       <tr><td class="field">barcode</td><td class="type">string</td><td>바코드(EAN-13)</td><td>8801234567890</td></tr>
       <tr><td class="field">unit_price</td><td class="type">number</td><td>표준 판매단가(원)</td><td>6,980</td></tr>
       <tr><td class="field">unit</td><td class="type">string</td><td>단위</td><td>g / ea / kg</td></tr>
@@ -140,7 +140,7 @@
     <table class="schema">
       <tr><th>필드</th><th>타입</th><th>설명</th><th>예시</th></tr>
       <tr><td class="field">promotion_id <span class="tag badge-pk">PK</span></td><td class="type">string</td><td>프로모션 고유 ID</td><td>PRM-2026Q3-07</td></tr>
-      <tr><td class="field">promotion_name</td><td class="type">string</td><td>프로모션명</td><td>순살치킨 여름 시식행사</td></tr>
+      <tr><td class="field">promotion_name</td><td class="type">string</td><td>프로모션명</td><td>장인라면 여름 시식행사</td></tr>
       <tr><td class="field">promotion_type</td><td class="type">enum</td><td>유형</td><td>할인 / 2+1 / 시식 / 샘플링</td></tr>
       <tr><td class="field">target_sku_ids</td><td class="type">array&lt;string&gt;</td><td>대상 SKU 목록</td><td>[SKU-88213]</td></tr>
       <tr><td class="field">start_date / end_date</td><td class="type">date</td><td>기간</td><td>2026-07-01 ~ 07-14</td></tr>
