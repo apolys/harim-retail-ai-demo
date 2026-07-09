@@ -1,37 +1,170 @@
 <link rel="stylesheet" href="../retail-ai.css">
-<h2 class="screen-caption">M1 AI 매대 스코어링 — 판촉사원 모바일 촬영 결과 화면. 매대 사진 위에 AI가 인식한 SKU 박스를 표시하고, 하단에 항목별 점수와 종합 점수를 보여준다.</h2>
-<div style="max-width:320px; margin:0 auto; background:var(--surface-1); border-radius:20px; padding:12px;">
-  <div style="font-size:13px; font-weight:500; margin-bottom:8px; padding:0 4px;">촬영 결과 · 이마트 해운대점 냉장 매대</div>
-  <div style="position:relative; background:var(--surface-2); border-radius:12px; height:200px; overflow:hidden;">
-    <svg width="100%" height="100%" viewBox="0 0 280 200">
-      <rect x="0" y="0" width="280" height="200" fill="var(--surface-2)"/>
-      <line x1="0" y1="60" x2="280" y2="60" stroke="var(--border)" stroke-width="1"/>
-      <line x1="0" y1="130" x2="280" y2="130" stroke="var(--border)" stroke-width="1"/>
-      <rect x="20" y="15" width="38" height="38" rx="3" fill="none" stroke="#639922" stroke-width="1.5"/>
-      <rect x="66" y="15" width="38" height="38" rx="3" fill="none" stroke="#639922" stroke-width="1.5"/>
-      <rect x="112" y="15" width="38" height="38" rx="3" fill="none" stroke="#639922" stroke-width="1.5"/>
-      <rect x="158" y="15" width="38" height="38" rx="3" fill="none" stroke="#E24B4A" stroke-width="1.5" stroke-dasharray="3 2"/>
-      <text x="177" y="10" text-anchor="middle" font-size="9" fill="#A32D2D">품절</text>
-      <rect x="204" y="15" width="38" height="38" rx="3" fill="none" stroke="#639922" stroke-width="1.5"/>
-      <rect x="20" y="85" width="38" height="38" rx="3" fill="none" stroke="#639922" stroke-width="1.5"/>
-      <rect x="66" y="85" width="38" height="38" rx="3" fill="none" stroke="#BA7517" stroke-width="1.5"/>
-      <text x="85" y="80" text-anchor="middle" font-size="9" fill="#854F0B">가격오류</text>
-      <rect x="112" y="85" width="38" height="38" rx="3" fill="none" stroke="#639922" stroke-width="1.5"/>
-      <rect x="158" y="85" width="38" height="38" rx="3" fill="none" stroke="#639922" stroke-width="1.5"/>
-      <rect x="204" y="85" width="38" height="38" rx="3" fill="none" stroke="#639922" stroke-width="1.5"/>
-    </svg>
+<h2 class="screen-caption">M1 AI 매대 스코어링 — 판촉사원 모바일 촬영 결과 화면. 사진 촬영부터 AI 분석 → OCR 인식 → SKU/가격 매칭 → Shelf Score → AI Summary까지 실제 서비스 흐름 그대로 클릭해서 확인할 수 있다.</h2>
+
+<div id="m1Root" style="max-width:320px; margin:0 auto; background:var(--surface-1); border-radius:20px; padding:12px;">
+
+  <!-- 진행 상태 점 -->
+  <div style="display:flex; gap:6px; justify-content:center; margin-bottom:10px;">
+    <span class="m1-dot" data-dot="1" style="width:6px; height:6px; border-radius:50%; background:var(--fill-primary);"></span>
+    <span class="m1-dot" data-dot="2" style="width:6px; height:6px; border-radius:50%; background:var(--border);"></span>
+    <span class="m1-dot" data-dot="3" style="width:6px; height:6px; border-radius:50%; background:var(--border);"></span>
+    <span class="m1-dot" data-dot="4" style="width:6px; height:6px; border-radius:50%; background:var(--border);"></span>
+    <span class="m1-dot" data-dot="5" style="width:6px; height:6px; border-radius:50%; background:var(--border);"></span>
+    <span class="m1-dot" data-dot="6" style="width:6px; height:6px; border-radius:50%; background:var(--border);"></span>
   </div>
-  <div style="display:flex; align-items:center; justify-content:space-between; margin:14px 4px 10px;">
-    <span style="font-size:13px; color:var(--text-secondary);">종합 스코어 (Perfect Store Score)</span>
-    <span style="font-size:26px; font-weight:500; color:var(--text-warning);">85점</span>
+
+  <!-- STEP 1: 사진 촬영/업로드 -->
+  <div class="m1-step" data-step="1">
+    <div style="font-size:13px; font-weight:500; margin-bottom:8px; padding:0 4px;">촬영 완료 · 하림 더미식 냉장 매대</div>
+    <div style="position:relative; border-radius:12px; overflow:hidden;">
+      <img src="../assets/images/m1-demo-shelf.jpg" alt="하림 더미식 냉장 매대 촬영 사진" style="width:100%; display:block;">
+    </div>
+    <div style="font-size:12px; color:var(--text-secondary); margin:10px 4px 0;">사진 1장이 업로드되었습니다. AI가 SKU·가격표·POP을 자동으로 인식합니다.</div>
+    <button onclick="m1GoProcessing()" style="width:100%; margin-top:14px; background:var(--fill-primary); color:var(--on-primary); border:none; border-radius:var(--radius); padding:12px; font-size:14px;">AI 분석 시작</button>
   </div>
-  <div style="display:flex; flex-direction:column; gap:6px; padding:0 4px;">
-    <div style="display:flex; justify-content:space-between; font-size:12px;"><span>재고가용성 <span style="color:var(--text-muted);">(25%)</span></span><span style="color:var(--text-danger);">72 / 100</span></div>
-    <div style="display:flex; justify-content:space-between; font-size:12px;"><span>플래노그램 준수 <span style="color:var(--text-muted);">(25%)</span></span><span style="color:var(--text-success);">95 / 100</span></div>
-    <div style="display:flex; justify-content:space-between; font-size:12px;"><span>가격 정합성 <span style="color:var(--text-muted);">(20%)</span></span><span style="color:var(--text-warning);">80 / 100</span></div>
-    <div style="display:flex; justify-content:space-between; font-size:12px;"><span>POP 부착 <span style="color:var(--text-muted);">(15%)</span></span><span style="color:var(--text-success);">100 / 100</span></div>
-    <div style="display:flex; justify-content:space-between; font-size:12px;"><span>매대 정돈·진열방향 <span style="color:var(--text-muted);">(15%)</span></span><span style="color:var(--text-warning);">82 / 100</span></div>
+
+  <!-- STEP 2: AI Processing -->
+  <div class="m1-step" data-step="2" style="display:none;">
+    <div style="font-size:13px; font-weight:500; margin-bottom:14px; padding:0 4px;">AI Processing...</div>
+    <div style="display:flex; flex-direction:column; gap:12px; padding:8px 4px;">
+      <div class="m1-chk" data-chk="1" style="display:flex; align-items:center; gap:8px; font-size:13px; color:var(--text-muted);"><span class="m1-chk-icon" style="width:16px;">○</span>이미지 보정</div>
+      <div class="m1-chk" data-chk="2" style="display:flex; align-items:center; gap:8px; font-size:13px; color:var(--text-muted);"><span class="m1-chk-icon" style="width:16px;">○</span>OCR 분석</div>
+      <div class="m1-chk" data-chk="3" style="display:flex; align-items:center; gap:8px; font-size:13px; color:var(--text-muted);"><span class="m1-chk-icon" style="width:16px;">○</span>SKU Matching</div>
+      <div class="m1-chk" data-chk="4" style="display:flex; align-items:center; gap:8px; font-size:13px; color:var(--text-muted);"><span class="m1-chk-icon" style="width:16px;">○</span>POP 인식</div>
+      <div class="m1-chk" data-chk="5" style="display:flex; align-items:center; gap:8px; font-size:13px; color:var(--text-muted);"><span class="m1-chk-icon" style="width:16px;">○</span>Shelf Scoring</div>
+    </div>
   </div>
-  <button style="width:100%; margin-top:14px; background:var(--fill-primary); color:var(--on-primary); border:none; border-radius:var(--radius); padding:12px; font-size:14px;">이슈 2건 조치하기</button>
-  <button data-page="ai-detail" style="width:100%; margin-top:8px; background:var(--surface-2); color:var(--text-accent); border:1px solid var(--border); border-radius:var(--radius); padding:12px; font-size:13px; font-weight:600; box-shadow:none;">🔍 AI 상세 결과 보기</button>
+
+  <!-- STEP 3: OCR 결과 -->
+  <div class="m1-step" data-step="3" style="display:none;">
+    <div style="font-size:13px; font-weight:500; margin-bottom:8px; padding:0 4px;">OCR 인식 결과</div>
+    <div style="position:relative; border-radius:12px; overflow:hidden;">
+      <img src="../assets/images/m1-demo-shelf.jpg" alt="OCR 바운딩 박스 인식 결과" style="width:100%; display:block;">
+      <svg viewBox="0 0 720 540" style="position:absolute; top:0; left:0; width:100%; height:100%;">
+        <rect x="35" y="15" width="210" height="190" rx="6" fill="none" stroke="#639922" stroke-width="2"/>
+        <rect x="255" y="15" width="210" height="190" rx="6" fill="none" stroke="#639922" stroke-width="2"/>
+        <rect x="475" y="15" width="215" height="190" rx="6" fill="none" stroke="#639922" stroke-width="2"/>
+        <rect x="20" y="270" width="225" height="255" rx="6" fill="none" stroke="#639922" stroke-width="2"/>
+        <rect x="255" y="270" width="220" height="255" rx="6" fill="none" stroke="#639922" stroke-width="2"/>
+        <rect x="485" y="270" width="220" height="255" rx="6" fill="none" stroke="#639922" stroke-width="2"/>
+      </svg>
+    </div>
+    <div style="display:flex; gap:8px; margin-top:10px; padding:0 4px;">
+      <div style="flex:1; font-size:11px;">
+        <div style="color:var(--text-muted); margin-bottom:4px;">SKU</div>
+        <div>더미식 김치교자</div>
+        <div>더미식 부대전골 밀키트</div>
+        <div>더미식 곱창전골 밀키트</div>
+      </div>
+      <div style="flex:1; font-size:11px; border-left:1px solid var(--border); padding-left:8px;">
+        <div style="color:var(--text-muted); margin-bottom:4px;">가격표</div>
+        <div>8,784원</div>
+        <div>13,600원</div>
+        <div>13,600원</div>
+      </div>
+      <div style="flex:1; font-size:11px; border-left:1px solid var(--border); padding-left:8px;">
+        <div style="color:var(--text-muted); margin-bottom:4px;">POP</div>
+        <div>추천상품</div>
+        <div>추천상품</div>
+        <div>추천상품</div>
+      </div>
+    </div>
+    <button onclick="m1ShowStep(4)" style="width:100%; margin-top:14px; background:var(--fill-primary); color:var(--on-primary); border:none; border-radius:var(--radius); padding:12px; font-size:14px;">다음 · 분석 결과 보기</button>
+  </div>
+
+  <!-- STEP 4: AI 분석 결과 -->
+  <div class="m1-step" data-step="4" style="display:none;">
+    <div style="font-size:13px; font-weight:500; margin-bottom:10px; padding:0 4px;">AI 분석 결과</div>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; padding:0 4px;">
+      <div style="background:var(--surface-2); border-radius:10px; padding:10px;">
+        <div style="font-size:11px; color:var(--text-muted);">SKU Matching</div>
+        <div style="font-size:20px; font-weight:500; color:var(--text-success);">100%</div>
+      </div>
+      <div style="background:var(--surface-2); border-radius:10px; padding:10px;">
+        <div style="font-size:11px; color:var(--text-muted);">가격표 일치</div>
+        <div style="font-size:20px; font-weight:500; color:var(--text-success);">100%</div>
+      </div>
+      <div style="background:var(--surface-2); border-radius:10px; padding:10px;">
+        <div style="font-size:11px; color:var(--text-muted);">POP 인식</div>
+        <div style="font-size:16px; font-weight:500; color:var(--text-success);">정상</div>
+      </div>
+      <div style="background:var(--surface-2); border-radius:10px; padding:10px;">
+        <div style="font-size:11px; color:var(--text-muted);">Face Count</div>
+        <div style="font-size:20px; font-weight:500;">7</div>
+      </div>
+      <div style="background:var(--surface-2); border-radius:10px; padding:10px; grid-column:1 / span 2;">
+        <div style="font-size:11px; color:var(--text-muted);">진열 품질</div>
+        <div style="font-size:16px; font-weight:500; color:var(--text-warning);">양호 (곱창전골 우측 여유 있음)</div>
+      </div>
+    </div>
+    <button onclick="m1ShowStep(5)" style="width:100%; margin-top:14px; background:var(--fill-primary); color:var(--on-primary); border:none; border-radius:var(--radius); padding:12px; font-size:14px;">다음 · Shelf Score 보기</button>
+  </div>
+
+  <!-- STEP 5: Shelf Score -->
+  <div class="m1-step" data-step="5" style="display:none;">
+    <div style="text-align:center; padding:10px 4px 4px;">
+      <div style="font-size:13px; color:var(--text-secondary);">Shelf Score</div>
+      <div style="font-size:40px; font-weight:600; color:var(--text-success); line-height:1.2;">94점</div>
+      <div style="display:inline-block; background:rgba(99,153,34,0.12); color:#639922; font-size:12px; font-weight:600; padding:3px 10px; border-radius:999px; margin-top:2px;">GOOD</div>
+    </div>
+    <div style="display:flex; flex-direction:column; gap:6px; padding:14px 4px 0;">
+      <div style="display:flex; justify-content:space-between; font-size:12px;"><span>SKU</span><span style="color:var(--text-success);">100 / 100</span></div>
+      <div style="display:flex; justify-content:space-between; font-size:12px;"><span>가격</span><span style="color:var(--text-success);">100 / 100</span></div>
+      <div style="display:flex; justify-content:space-between; font-size:12px;"><span>POP</span><span style="color:var(--text-success);">95 / 100</span></div>
+      <div style="display:flex; justify-content:space-between; font-size:12px;"><span>진열</span><span style="color:var(--text-warning);">82 / 100</span></div>
+    </div>
+    <button onclick="m1ShowStep(6)" style="width:100%; margin-top:14px; background:var(--fill-primary); color:var(--on-primary); border:none; border-radius:var(--radius); padding:12px; font-size:14px;">다음 · AI Summary 보기</button>
+  </div>
+
+  <!-- STEP 6: AI Summary -->
+  <div class="m1-step" data-step="6" style="display:none;">
+    <div style="font-size:13px; font-weight:500; margin-bottom:10px; padding:0 4px;">AI Summary</div>
+    <div style="display:flex; flex-direction:column; gap:8px; padding:0 4px; font-size:13px;">
+      <div>✓ SKU 3종 정상 인식 (김치교자·부대전골·곱창전골)</div>
+      <div>✓ 가격표 3건 일치</div>
+      <div>✓ 추천상품 POP 인식 완료</div>
+      <div style="color:var(--text-warning);">⚠ 곱창전골 밀키트 진열 여유 공간 보강 권장</div>
+    </div>
+    <button style="width:100%; margin-top:14px; background:var(--fill-primary); color:var(--on-primary); border:none; border-radius:var(--radius); padding:12px; font-size:14px;">진열 보강 요청 보내기</button>
+    <button data-page="ai-detail" style="width:100%; margin-top:8px; background:var(--surface-2); color:var(--text-accent); border:1px solid var(--border); border-radius:var(--radius); padding:12px; font-size:13px; font-weight:600; box-shadow:none;">🔍 AI 상세 결과 보기</button>
+    <button onclick="m1ShowStep(1)" style="width:100%; margin-top:8px; background:none; color:var(--text-muted); border:none; padding:8px; font-size:12px; box-shadow:none;">처음부터 다시 보기</button>
+  </div>
+
 </div>
+
+<script>
+var m1TotalSteps = 6;
+
+function m1ShowStep(n) {
+  var root = document.getElementById('m1Root');
+  if (!root) return;
+  var steps = root.querySelectorAll('.m1-step');
+  for (var i = 0; i < steps.length; i++) {
+    steps[i].style.display = (parseInt(steps[i].getAttribute('data-step'), 10) === n) ? '' : 'none';
+  }
+  var dots = root.querySelectorAll('.m1-dot');
+  for (var j = 0; j < dots.length; j++) {
+    var isActive = parseInt(dots[j].getAttribute('data-dot'), 10) === n;
+    dots[j].style.background = isActive ? 'var(--fill-primary)' : 'var(--border)';
+  }
+}
+
+function m1GoProcessing() {
+  m1ShowStep(2);
+  var root = document.getElementById('m1Root');
+  if (!root) return;
+  var delays = [300, 700, 1150, 1600, 2050];
+  for (var i = 0; i < delays.length; i++) {
+    (function (idx) {
+      setTimeout(function () {
+        var chk = root.querySelector('.m1-chk[data-chk="' + (idx + 1) + '"]');
+        if (!chk) return;
+        chk.style.color = 'var(--text-success)';
+        var icon = chk.querySelector('.m1-chk-icon');
+        if (icon) icon.textContent = '✓';
+      }, delays[idx]);
+    })(i);
+  }
+  setTimeout(function () { m1ShowStep(3); }, 2600);
+}
+</script>
