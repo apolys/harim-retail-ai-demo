@@ -197,9 +197,9 @@
   // 나머지는 Preview(Coming Soon) 단일 페이지
   // ============================================
   const menu = [
-    { id: "dashboard", label: "Dashboard", type: "single", file: "preview_dashboard.html" },
-    { id: "workforce", label: "Workforce", type: "single", file: "preview_workforce.html" },
-    { id: "contract", label: "Contract", type: "single", file: "preview_contract.html" },
+    { id: "dashboard", label: "Dashboard", type: "single", file: "platform_dashboard.html", preview: false },
+    { id: "workforce", label: "Workforce", type: "single", file: "preview_workforce.html", preview: true },
+    { id: "contract", label: "Contract", type: "single", file: "preview_contract.html", preview: true },
     {
       id: "education", label: "Education Center", type: "group", defaultOpen: true,
       children: [
@@ -237,8 +237,8 @@
         { id: "visit-board", label: "오늘 방문 현황판", file: "a_visit_status_board.html", group: "입력" },
       ]
     },
-    { id: "analytics", label: "Analytics", type: "single", file: "preview_analytics.html" },
-    { id: "settings", label: "Settings", type: "single", file: "preview_settings.html" },
+    { id: "analytics", label: "Analytics", type: "single", file: "preview_analytics.html", preview: true },
+    { id: "settings", label: "Settings", type: "single", file: "preview_settings.html", preview: true },
   ];
 
   const sidebarNav = document.getElementById("sidebarNav");
@@ -335,7 +335,9 @@
       const btn = document.createElement("button");
       btn.className = "nav-single";
       btn.dataset.id = top.id;
-      btn.innerHTML = `<span>${top.label}</span><span class="soon-tag">Preview</span>`;
+      btn.innerHTML = top.preview
+        ? `<span>${top.label}</span><span class="soon-tag">Preview</span>`
+        : `<span>${top.label}</span>`;
       btn.onclick = () => loadFile(top.file, top.label, btn, null);
       wrap.appendChild(btn);
       sidebarNav.appendChild(wrap);
@@ -389,8 +391,12 @@
     }
   });
 
-  // 기본 진입 화면: Education Center > 교육 대시보드
-  if (firstLeaf) {
+  // 기본 진입 화면: Platform Home Dashboard
+  const defaultSingleBtn = document.querySelector('.nav-single[data-id="dashboard"]');
+  const defaultMenuItem = menu.find(m => m.id === "dashboard");
+  if (defaultSingleBtn && defaultMenuItem) {
+    loadFile(defaultMenuItem.file, defaultMenuItem.label, defaultSingleBtn, null);
+  } else if (firstLeaf) {
     loadFile(firstLeaf.child.file, firstLeaf.child.label, firstLeaf.el, firstLeaf.top.label);
   }
 </script>
