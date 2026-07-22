@@ -89,7 +89,7 @@
 
   <div class="ad-header">
     <div>
-      <div class="store" id="ad-store-name">이마트 해운대점</div>
+      <div class="store" id="ad-store-name">롯데마트 의왕점</div>
       <div class="meta" id="ad-capture-meta">촬영 2026-07-08 10:32 · 담당 홍길동</div>
     </div>
     <div class="zone-badge" id="ad-zone-badge">상온 매대</div>
@@ -116,7 +116,7 @@
             <!-- 가격표 Bounding Box (파랑) -->
             <rect x="14" y="66" width="52" height="14" rx="2" fill="none" stroke="#3D6FD8" stroke-width="1.4" stroke-dasharray="3 2"/>
             <rect x="200" y="66" width="52" height="14" rx="2" fill="none" stroke="#E24B4A" stroke-width="1.4" stroke-dasharray="3 2"/>
-            <text x="226" y="63" text-anchor="middle" font-size="9" fill="#A32D2D">가격표 누락</text>
+            <text x="226" y="63" text-anchor="middle" font-size="9" fill="#A32D2D">가격표 인식률 저하(82%)</text>
 
             <!-- 제품 2열 -->
             <rect x="14" y="92" width="52" height="52" rx="3" fill="none" stroke="#639922" stroke-width="1.6"/>
@@ -174,7 +174,7 @@
   <!-- TAB 2: SKU Detection Detail -->
   <div class="ad-panel" id="ad-panel-sku">
     <div class="ad-card">
-      <h4>SKU Detection Detail <span style="font-weight:400;color:var(--text-muted)">— 검출된 31개 SKU 중 대표 항목</span></h4>
+      <h4>SKU Detection Detail <span style="font-weight:400;color:var(--text-muted)">— 검출된 5개 SKU (하림 4종 + 경쟁사 1종)</span></h4>
       <table class="ad-table">
         <tr><th>SKU</th><th>인식</th><th>Facing</th><th>가격표</th><th>POP</th></tr>
         <tbody id="ad-sku-tbody"></tbody>
@@ -226,68 +226,64 @@
   // 동일한 필드 구조를 갖는 실제 API 응답으로 교체하면 화면 로직은 그대로 재사용 가능합니다.
   var aiMockAnalysis = {
     photo: {
-      photo_id: 'PH-20260708-0091',
-      store_name: '이마트 해운대점',
-      captured_at: '2026-07-08T10:32:00',
-      display_zone: '상온 매대',
+      photo_id: 'PH-20260709-0104',
+      store_name: '롯데마트 의왕점',
+      captured_at: '2026-07-09T10:00:00',
+      display_zone: '상온 매대(라면류)',
       manager_name: '홍길동'
     },
     metrics: {
-      detected_sku_count: 31,
-      price_tag_recognition_rate: 93.5,
-      planogram_compliance_rate: 88,
-      avg_facing_count: 4.2,
-      perfect_store_score: 91
+      detected_sku_count: 5,
+      price_tag_recognition_rate: 96.5,
+      planogram_compliance_rate: 90,
+      avg_facing_count: 3.2,
+      perfect_store_score: 90
     },
     summary_issues: [
-      { label: '가격표 누락 2건', level: 'danger' },
-      { label: 'POP 누락 1건', level: 'warn' },
-      { label: '진열 방향 오류 3건', level: 'warn' },
-      { label: 'OOS 없음', level: 'ok' }
+      { label: '장인라면 담백한맛 POP 미부착', level: 'danger' },
+      { label: '장인라면 담백한맛 Facing 부족(2개, 기준 4개)', level: 'warn' },
+      { label: '장인라면 맵싸한맛 가격표 일부 가림(인식률 82%)', level: 'warn' },
+      { label: '재고 완전 품절 SKU 없음', level: 'ok' }
     ],
     sku_detection: [
-      { sku_name: '더미식 장인라면 얼큰한맛', recognized: true, facing: 6, price_tag_ok: true,  pop_ok: true  },
-      { sku_name: '더미식 장인라면 담백한맛', recognized: true, facing: 4, price_tag_ok: true,  pop_ok: true  },
-      { sku_name: '더미식 현미쌀밥 180g',     recognized: true, facing: 2, price_tag_ok: false, pop_ok: true  },
-      { sku_name: '더미식 비빔면 138g',        recognized: true, facing: 5, price_tag_ok: true,  pop_ok: false },
-      { sku_name: 'The미식 육즙고기교자',      recognized: true, facing: 3, price_tag_ok: false, pop_ok: true  },
-      { sku_name: 'The미식 오징어라면 컵',     recognized: true, facing: 4, price_tag_ok: true,  pop_ok: true  },
-      { sku_name: '더미식 유니자장면 594g',    recognized: true, facing: 3, price_tag_ok: true,  pop_ok: true  },
-      { sku_name: 'The미식 육즙떡갈비 450g',   recognized: false, facing: 0, price_tag_ok: false, pop_ok: false }
+      { sku_name: '더미식 장인라면 얼큰한맛', recognized: true, facing: 4, price_tag_ok: true,  pop_ok: true  },
+      { sku_name: '더미식 장인라면 담백한맛', recognized: true, facing: 2, price_tag_ok: true,  pop_ok: false },
+      { sku_name: '더미식 장인라면 맵싸한맛', recognized: true, facing: 4, price_tag_ok: true,  pop_ok: true  },
+      { sku_name: 'The미식 오징어라면',       recognized: true, facing: 4, price_tag_ok: true,  pop_ok: true  },
+      { sku_name: '(경쟁사) 서울라면 로스팅', recognized: true, facing: 2, price_tag_ok: true,  pop_ok: false }
     ],
-    sku_detection_more: 23,
+    sku_detection_more: 0,
     price_ocr: [
-      { sku_name: '더미식 장인라면 얼큰한맛', ocr_price: '2,980원',   confidence: 98, matched: true },
-      { sku_name: '더미식 현미쌀밥 180g',     ocr_price: '1,650원',   confidence: 95, matched: true },
-      { sku_name: '더미식 비빔면 138g',        ocr_price: '3,280원',   confidence: 91, matched: true },
-      { sku_name: 'The미식 육즙고기교자',      ocr_price: '인식 실패', confidence: 41, matched: false },
-      { sku_name: 'The미식 오징어라면 컵',     ocr_price: '2,380원',   confidence: 97, matched: true }
+      { sku_name: '더미식 장인라면 얼큰한맛', ocr_price: '6,600원', confidence: 97, matched: true },
+      { sku_name: '더미식 장인라면 담백한맛', ocr_price: '6,600원', confidence: 95, matched: true },
+      { sku_name: '더미식 장인라면 맵싸한맛', ocr_price: '6,600원', confidence: 82, matched: true },
+      { sku_name: 'The미식 오징어라면',       ocr_price: '7,480원', confidence: 94, matched: true }
     ],
     compliance_checklist: [
-      { label: '가격표 있음',       passed: true },
-      { label: 'POP 부착',          passed: true },
-      { label: '행사상품 진열',      passed: true },
-      { label: 'Facing 기준 충족',  passed: false },
-      { label: '진열 방향 정상',    passed: true },
-      { label: '냉장 매대 온도 확인', passed: true }
+      { label: '가격표 있음',            passed: true },
+      { label: 'POP 부착',               passed: false },
+      { label: '경쟁사 대비 Facing 우위', passed: true },
+      { label: 'Facing 기준 충족',       passed: false },
+      { label: '진열 방향 정상',         passed: true },
+      { label: '매대 정돈·청결',         passed: true }
     ],
-    overall_compliance_score: 92,
+    overall_compliance_score: 90,
     manager_actions: [
-      { priority: 1, sku: '더미식 현미쌀밥 180g', action: 'Facing +2 필요' },
-      { priority: 2, sku: '더미식 장인라면 얼큰한맛', action: '가격표 교체' },
-      { priority: 3, sku: 'The미식 육즙고기교자', action: 'POP 추가 부착' }
+      { priority: 1, sku: '더미식 장인라면 담백한맛', action: 'Facing 확대 (2→4개 권장)' },
+      { priority: 2, sku: '더미식 장인라면 담백한맛', action: 'POP 재부착' },
+      { priority: 3, sku: '더미식 장인라면 맵싸한맛', action: '가격표 재촬영 권장 (인식률 82%)' }
     ],
     before_after: {
-      perfect_store: { before: 82, after: 95 },
-      oos: { before: 2, after: 0 },
-      facing_rate: { before: 72, after: 95 }
+      perfect_store: { before: 90, after: 97 },
+      oos: { before: 1, after: 0 },
+      facing_rate: { before: 82, after: 96 }
     },
     score_breakdown: [
-      { label: '재고가용성',        weight: 25, obtained: 25.0, basis: 'OOS 발생 여부 (품절 SKU 수)' },
-      { label: '플래노그램 준수',    weight: 25, obtained: 22.0, basis: '진열 위치·Facing 기준 충족률' },
-      { label: '가격 정합성',        weight: 20, obtained: 18.7, basis: '가격표 부착·OCR 인식 일치율' },
-      { label: 'POP 부착',          weight: 15, obtained: 13.5, basis: '판촉물 부착 여부' },
-      { label: '매대 정돈·진열방향', weight: 15, obtained: 12.0, basis: '진열 방향·청결·온도 등' }
+      { label: '재고가용성',        weight: 25, obtained: 25.0, basis: '완전 품절 SKU 없음' },
+      { label: '플래노그램 준수',    weight: 25, obtained: 21.0, basis: '담백한맛 Facing 2개 (기준 4개 미달)' },
+      { label: '가격 정합성',        weight: 20, obtained: 19.0, basis: '맵싸한맛 가격표 일부 가림 (인식률 82%)' },
+      { label: 'POP 부착',          weight: 15, obtained: 11.0, basis: '담백한맛 POP 미부착' },
+      { label: '매대 정돈·진열방향', weight: 15, obtained: 14.0, basis: '전반적 진열 상태 양호' }
     ]
   };
 
